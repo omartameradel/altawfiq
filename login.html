@@ -6,6 +6,7 @@
     <title> منصة_التوفيق | Login</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="https://altawfiq.netlify.app/altawfiq.png">
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
@@ -94,7 +95,6 @@
                         <input type="password" id="loginPassword" placeholder="••••••••" required>
                     </div>
                     <button type="submit" class="btn-login" id="submitLogin">تسجيل الدخول</button>
-                    <a class='forgot-pass' href='forget-password.html'>نسيت كلمة المرور؟</a>
                 </form>
 
                 <div style="margin: 15px 0; color: #ccc; font-size: 0.8rem;">أو عبر الحسابات الاجتماعية</div>
@@ -116,33 +116,7 @@
         </section>
     </div>
 
-    <button class="help-fab" onclick="openHelp()">
-        <i class="fa-solid fa-headset"></i>
-    </button>
-
-    <div id="helpModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeHelp()">&times;</span>
-            <h3 style="color: var(--main-blue); font-weight: 900; margin-bottom: 15px; text-align: center;">الدعم الفني</h3>
-                        
-            <div class="input-group">
-                <label>البريد الإلكتروني المراد التحقق منه</label>
-                <input type="email" id="helpEmail" placeholder="اكتب إيميلك المسجل لدينا">
-            </div>
-
-            <div class="input-group">
-                <label>عنوان المشكلة</label>
-                <input type="text" id="helpSubject" placeholder="ما هي المشكلة؟">
-            </div>
-
-            <div class="input-group">
-                <label>التفاصيل</label>
-                <textarea id="helpDesc" rows="3" placeholder="اشرح لنا أكثر..."></textarea>
-            </div>
-
-            <button class="btn-login" id="sendHelpBtn" onclick="submitHelpRequest()">إرسال الطلب للأدمن</button>
-        </div>
-    </div>
+    
 
    <script>
     // --- 1. إعدادات فيربيس ---
@@ -216,82 +190,45 @@
     });
 
     // --- 3. تسجيل دخول جوجل المشروط (يجب أن يكون مسجلاً مسبقاً من الأدمن) ---
+   // --- 3. تسجيل دخول جوجل المشروط (المعدل لحل المشاكل ومعرفة الخطأ) ---
     function googleLoginWithCheck() {
         const provider = new firebase.auth.GoogleAuthProvider();
-
+        
+        // استخدام signInWithPopup وإضافة كود لتتبع الخطأ بوضوح
         auth.signInWithPopup(provider)
             .then(async (result) => {
                 const userEmail = result.user.email;
 
-                // الاستعلام من قاعدة البيانات للتحقق من وجود إيميل جوجل هذا في الـ custom_users
+                // الاستعلام من قاعدة البيانات للتحقق من وجود إيميل جوجل
                 const userQuery = await db.collection('custom_users').where('email', '==', userEmail).get();
 
                 if (!userQuery.empty) {
-                    // إذا كان الحساب مسجل ومعتمد من الأدمن
                     const userDoc = userQuery.docs[0];
                     localStorage.setItem('omar_media_user_id', userDoc.id);
                     localStorage.setItem('user_name', userDoc.data().name || result.user.displayName || "مستخدم");
                     
                     window.location.href = "home.html";
                 } else {
-                    // إذا كان الإيميل غير مضاف من الأدمن، نقوم بطرده فوراً وإلغاء الجلسة الفيدرالية
                     auth.signOut();
-                    alert("❌ عذراً! حساب جوجل هذا غير مسجل مسبقاً بالنظام بواسطة الإدارة. لا يمكنك الدخول.");
+                    alert("❌ عذراً! حساب جوجل هذا غير مسجل مسبقاً بالنظام بواسطة الإدارة.");
                 }
             })
             .catch((error) => {
-                console.error(error);
-                alert("حدث خطأ أثناء الاتصال بحساب جوجل");
+                console.error("Firebase Auth Error Details:", error);
+                
+                // تنبيه ذكي للمطور يوضح سبب المشكلة الحقيقي
+                if (error.code === 'auth/operation-not-allowed') {
+                    alert("⚠️ خطأ: يجب عليك تفعيل تسجيل الدخول بواسطة Google من داخل الـ Firebase Console أولاً!");
+                } else if (error.code === 'auth/popup-blocked') {
+                    alert("⚠️ تم حظر النافذة المنبثقة بواسطة المتصفح، يرجى السماح بالنوافذ المنبثقة للموقع أو استخدام متصفح آخر.");
+                } else {
+                    alert("حدث خطأ أثناء الاتصال بحساب جوجل: " + error.message);
+                }
             });
     }
 
     // --- 4. إرسال مشكلة للدعم الفني مع التحقق من وجود الإيميل ---
-    async function submitHelpRequest() {
-        const email = document.getElementById('helpEmail').value.trim();
-        const subject = document.getElementById('helpSubject').value.trim();
-        const desc = document.getElementById('helpDesc').value.trim();
-        const btn = document.getElementById('sendHelpBtn');
-
-        if(!email || !subject || !desc) return alert("برجاء ملء جميع الحقول");
-
-        btn.disabled = true;
-        btn.innerText = "جاري التحقق من الحساب...";
-
-        try {
-            const userCheck = await db.collection('custom_users').where('email', '==', email).get();
-
-            if (userCheck.empty) {
-                alert("❌ هذا البريد الإلكتروني غير مسجل في النظام كحساب رسمي، لا يمكنك إرسال تذكرة دعم.");
-                btn.disabled = false;
-                btn.innerText = "إرسال الطلب للأدمن";
-                return;
-            }
-
-            btn.innerText = "جاري الإرسال...";
-            await db.collection('support_requests').add({
-                user_email: email,
-                subject: subject,
-                description: desc,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                status: 'pending'
-            });
-
-            alert("✅ تم التحقق من حسابك وإرسال مشكلتك بنجاح، سيقوم الأدمن بالرد عليك قريباً.");
-            closeHelp();
-            
-            document.getElementById('helpEmail').value = "";
-            document.getElementById('helpSubject').value = "";
-            document.getElementById('helpDesc').value = "";
-
-        } catch (err) {
-            console.error(err);
-            alert("حدث خطأ! تأكد من إعدادات الـ Security Rules الخاصة بـ Firestore لتسمح بالقراءة والكتابة.");
-        } finally {
-            btn.disabled = false;
-            btn.innerText = "إرسال الطلب للأدمن";
-        }
-    }
-
+   
     // وظائف المودال (النافذة المنبثقة)
     function openHelp() { document.getElementById('helpModal').style.display = 'block'; }
     function closeHelp() { document.getElementById('helpModal').style.display = 'none'; }
