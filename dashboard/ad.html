@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم الأدمن الكاملة | منصة التوفيق</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght=400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+        <link rel="icon" type="image/png" href="https://altawfiq.netlify.app/altawfiq.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Firebase SDKs (v9 Compat) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #f4f7fc; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- الهيدر العلوي -->
+    <header class="bg-[#0d48a1] text-white px-6 py-4 shadow-md flex flex-col gap-3">
+        <div class="flex justify-between items-center">
+            <h1 class="text-2xl font-900 tracking-wide">Omar_Media <span class="text-sm font-normal text-amber-400">لوحة التحكم الإشرافية الشاملة</span></h1>
+            <span class="bg-blue-800 px-3 py-1 rounded-full text-sm">مرحباً، المدير العام</span>
+        </div>
+        <nav class="flex gap-4 text-sm">
+            <a href="#createUserForm" class="hover:underline">إنشاء حساب جديد</a>
+            <a href="#usersTableBody" class="hover:underline">عرض الحسابات</a>
+            <a href="#supportUsersList" class="hover:underline">محادثات الدعم</a>
+        </nav>
+    </header>
+
+    <!-- المحتوى الرئيسي علوي (الإنشاء والدعم الفني) -->
+    <main class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 p-6">
+        
+        <!-- القسم الأيمن: إنشاء حساب مستخدم جديد (5 أعمدة) -->
+        <section class="lg:col-span-5 bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col justify-between">
+            <div>
+                <div class="flex items-center gap-2 mb-4 border-b border-gray-100 pb-3">
+                    <i class="fa-solid fa-user-plus text-[#0d48a1] text-xl"></i>
+                    <h2 class="text-lg font-bold text-gray-800">إنشاء حساب مستخدم جديد</h2>
+                </div>
+
+                <form id="createUserForm" class="space-y-3">
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-600 mb-1">الرقم التعريفي (ID)</label>
+                            <input type="text" id="newUserId" class="w-full border border-gray-300 rounded-lg p-2 text-sm outline-none focus:border-blue-600" placeholder="omar2026" required>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-600 mb-1">اسم المستخدم</label>
+                            <input type="text" id="newUserName" class="w-full border border-gray-300 rounded-lg p-2 text-sm outline-none focus:border-blue-600" placeholder="الاسم بالكامل" required>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-600 mb-1">البريد الإلكتروني</label>
+                            <input type="email" id="newUserEmail" class="w-full border border-gray-300 rounded-lg p-2 text-sm outline-none focus:border-blue-600" placeholder="mail@example.com" required>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-600 mb-1">كلمة المرور</label>
+                            <input type="text" id="newUserPass" class="w-full border border-gray-300 rounded-lg p-2 text-sm outline-none focus:border-blue-600" placeholder="اكتب كلمة المرور هنا" required>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-600 mb-1">رقم الهاتف</label>
+                        <input type="tel" id="newUserPhone" class="w-full border border-gray-300 rounded-lg p-2 text-sm outline-none focus:border-blue-600" placeholder="012xxxxxxx" required>
+                    </div>
+
+                    <div class="bg-gray-50 p-3 rounded-xl space-y-2 border border-gray-200">
+                        <span class="text-xs font-bold text-blue-900 block"><i class="fa-solid fa-shield-halved"></i> إيميلات الدخول الاجتماعي المسموحة</span>
+                        <div class="grid grid-cols-1 gap-2">
+                            <input type="email" id="allowGoogle" class="w-full border border-gray-300 bg-white rounded-lg p-2 text-xs outline-none focus:border-blue-600" placeholder="بريد Google المسموح">
+                        </div>
+                    </div>
+
+                    <button type="submit" id="createBtn" class="w-full bg-[#0d48a1] hover:bg-blue-800 text-white font-bold py-2 rounded-lg text-sm transition-all shadow-sm">
+                        إضافة الحساب لقاعدة البيانات
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- القسم الأيسر: مركز الدعم الفني والشات الحي (7 أعمدة) -->
+        <section class="lg:col-span-7 bg-white rounded-2xl shadow-sm border border-gray-100 grid grid-cols-12 overflow-hidden min-h-[400px]">
+            <div class="col-span-4 border-l border-gray-100 flex flex-col bg-gray-50/50">
+                <div class="p-3 border-b border-gray-100 bg-white">
+                    <h3 class="font-bold text-gray-700 text-xs"><i class="fa-solid fa-comments text-amber-500"></i> محادثات الدعم النشطة</h3>
+                </div>
+                <div id="supportUsersList" class="flex-1 overflow-y-auto p-2 space-y-1">
+                    <p class="text-xs text-center text-gray-400 mt-4">جاري تحميل الرسائل...</p>
+                </div>
+            </div>
+
+            <div id="chatArea" class="col-span-8 flex flex-col bg-white">
+                <div id="noChatSelected" class="flex-1 flex flex-col items-center justify-center p-6 text-center text-gray-400">
+                    <i class="fa-solid fa-headset text-4xl mb-2 text-gray-300"></i>
+                    <p class="text-xs">اضغط على اسم مستخدم لبدء شات فوري ومباشر معه.</p>
+                </div>
+
+                <div id="activeChatWrapper" class="hidden flex-1 flex flex-col h-full">
+                    <div class="p-3 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                        <div>
+                            <h4 id="chatHeaderName" class="font-bold text-gray-800 text-xs">اسم المستخدم</h4>
+                            <p id="chatHeaderSubject" class="text-[11px] text-blue-600 mt-0.5">الموضوع: ...</p>
+                        </div>
+                    </div>
+
+                    <div id="messagesContainer" class="flex-1 overflow-y-auto p-3 space-y-3 bg-slate-50 max-h-[250px]"></div>
+
+                    <form id="chatInputForm" class="p-2 border-t border-gray-100 flex gap-2 bg-white">
+                        <input type="text" id="adminMessageInput" class="flex-1 border border-gray-300 rounded-xl px-3 py-1.5 text-xs outline-none focus:border-blue-600" placeholder="اكتب ردك الفني هنا..." required autocomplete="off">
+                        <button type="submit" class="bg-[#0d48a1] text-white px-3 py-1.5 rounded-xl text-xs font-bold hover:bg-blue-800 transition-all">إرسال</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- عرض الحسابات وكلمات المرور بالكامل -->
+    <section class="p-6 pt-2">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <div class="flex justify-between items-center mb-4 border-b border-gray-100 pb-3">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-users-gear text-emerald-600 text-xl"></i>
+                    <h2 class="text-lg font-bold text-gray-800">قائمة الحسابات وكلمات المرور المسجلة بالموقع</h2>
+                </div>
+                <button onclick="loadAllUsers()" class="text-xs bg-emerald-50 text-emerald-700 font-bold px-3 py-1.5 rounded-lg border border-emerald-200 hover:bg-emerald-100 transition-all">
+                    <i class="fa-solid fa-rotate mr-1"></i> تحديث القائمة
+                </button>
+            </div>
+
+            <!-- جدول الحسابات المتجاوب -->
+            <div class="overflow-x-auto rounded-xl border border-gray-200">
+                <table class="w-full text-right text-xs text-gray-600 border-collapse">
+                    <thead class="bg-gray-100 text-gray-700 font-bold">
+                        <tr>
+                            <th class="p-3 border-b">الرقم التعريفي (ID)</th>
+                            <th class="p-3 border-b">الاسم الكامل</th>
+                            <th class="p-3 border-b">البريد الإلكتروني</th>
+                            <th class="p-3 border-b text-red-600 bg-red-50/50">كلمة المرور</th>
+                            <th class="p-3 border-b">رقم الهاتف</th>
+                            <th class="p-3 border-b">إيميل Google المربوط</th>
+                            <th class="p-3 border-b text-center">إجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // --- 1. إعداد فيربيس الخاص بـ Omar_Media ---
+     const firebaseConfig = {
+  apiKey: "AIzaSyCN9vN9zcPa6OCUnzin101OTtyOYBDSPEk",
+  authDomain: "bluetooth-4791f.firebaseapp.com",
+  projectId: "bluetooth-4791f",
+  storageBucket: "bluetooth-4791f.firebasestorage.app",
+  messagingSenderId: "80129288547",
+  appId: "1:80129288547:web:05c480484ba5eb1b908b56",
+  measurementId: "G-51VB9VFYFJ"
+};
+        
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        let currentTicketId = null;
+        let unsubscribeChat = null;
+
+        // --- 2. سكريبت إنشاء حساب مستخدم ---
+        document.getElementById('createUserForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('createBtn');
+            const userId = document.getElementById('newUserId').value.trim();
+            
+            btn.disabled = true;
+            const newUserData = {
+                name: document.getElementById('newUserName').value.trim(),
+                email: document.getElementById('newUserEmail').value.trim(),
+                pass: document.getElementById('newUserPass').value,
+                phone: document.getElementById('newUserPhone').value.trim(),
+                allowed_google_email: document.getElementById('allowGoogle').value.trim() || "غير مربوط",
+            };
+
+            /************************************************************
+             * طالما تم إزالة حقل بريد جيت هاب من الواجهة تماماً،     *
+             * فإنه لا يُرسل ضمن البيانات المرفوعة لقاعدة البيانات.       *
+             ************************************************************/
+
+            try {
+                await db.collection('custom_users').doc(userId).set(newUserData);
+                alert(`✅ تم إنشاء الحساب وحفظ البيانات بنجاح!`);
+                document.getElementById('createUserForm').reset();
+            } catch (error) {
+                alert("❌ حدث خطأ أثناء الحفظ: " + error.message);
+            } finally {
+                btn.disabled = false;
+            }
+        });
+
+        // --- 3. جلب وعرض كل الحسابات بكلمات المرور ---
+        function loadAllUsers() {
+            db.collection('custom_users').onSnapshot((snapshot) => {
+                const tbody = document.getElementById('usersTableBody');
+                tbody.innerHTML = "";
+
+                if (snapshot.empty) {
+                    tbody.innerHTML = `<tr><td colspan="7" class="text-center p-4 text-gray-400">لا يوجد أي حسابات مسجلة حالياً في النظام.</td></tr>`;
+                    return;
+                }
+
+                snapshot.forEach((doc) => {
+                    const user = doc.data();
+                    const uId = doc.id;
+                    const row = document.createElement('tr');
+                    row.className = "hover:bg-gray-50 border-b border-gray-100 transition-all";
+                    row.innerHTML = `
+                        <td class="p-3 font-bold text-blue-900">${uId}</td>
+                        <td class="p-3 font-semibold">${user.name || 'بدون اسم'}</td>
+                        <td class="p-3 text-gray-500">${user.email}</td>
+                        <td class="p-3 font-mono font-bold text-red-600 bg-red-50/30">${user.pass || '⚠️ فارغة'}</td>
+                        <td class="p-3">${user.phone || 'لا يوجد'}</td>
+                        <td class="p-3 text-gray-400">${user.allowed_google_email || 'غير مربوط'}</td>
+                        <td class="p-3 text-center">
+                            <button onclick="deleteUser('${uId}')" class="bg-red-50 text-red-600 hover:bg-red-100 px-2 py-1 rounded border border-red-200 transition-all">
+                                <i class="fa-solid fa-trash-can"></i> حذف
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            });
+        }
+
+        async function deleteUser(id) {
+            if (confirm(`هل أنت متأكد تماماً من حذف الحساب ذو الرقم التعريفي (${id}) نهائياً؟`)) {
+                try {
+                    await db.collection('custom_users').doc(id).delete();
+                    alert("تم حذف الحساب بنجاح.");
+                } catch (err) {
+                    alert("فشل الحذف: " + err.message);
+                }
+            }
+        }
+
+        // --- 4. الدعم الفني واستماع تذاكر الدردشة الفورية ---
+        function listenToSupportTickets() {
+            db.collection('support_requests').orderBy('timestamp', 'desc').onSnapshot(async (snapshot) => {
+                const listContainer = document.getElementById('supportUsersList');
+                listContainer.innerHTML = "";
+
+                if (snapshot.empty) {
+                    listContainer.innerHTML = `<p class="text-xs text-center text-gray-400 mt-4">لا توجد طلبات دعم حالياً.</p>`;
+                    return;
+                }
+
+                for (let doc of snapshot.docs) {
+                    const ticket = doc.data();
+                    const ticketId = doc.id;
+                    
+                    let userName = "مستخدم خارجي";
+                    const userQuery = await db.collection('custom_users').where('email', '==', ticket.user_email).get();
+                    if (!userQuery.empty) {
+                        userName = userQuery.docs[0].data().name;
+                    }
+
+                    const item = document.createElement('button');
+                    item.className = `w-full text-right p-2 rounded-xl transition-all flex flex-col text-xs hover:bg-white border ${currentTicketId === ticketId ? 'bg-white border-blue-200 shadow-sm' : 'border-transparent'}`;
+                    item.onclick = () => openChatWithUser(ticketId, userName, ticket.user_email, ticket.subject);
+                    
+                    item.innerHTML = `
+                        <div class="flex justify-between items-center w-full">
+                            <span class="font-bold text-gray-800">${userName}</span>
+                            <span class="w-1.5 h-1.5 rounded-full ${ticket.status === 'pending' ? 'bg-amber-500' : 'bg-green-500'}"></span>
+                        </div>
+                        <span class="text-[10px] text-gray-500 truncate max-w-[120px]">${ticket.subject}</span>
+                    `;
+                    listContainer.appendChild(item);
+                }
+            });
+        }
+
+        function openChatWithUser(ticketId, userName, userEmail, subject) {
+            currentTicketId = ticketId;
+            db.collection('support_requests').doc(ticketId).update({ status: 'active' });
+
+            document.getElementById('noChatSelected').style.display = 'none';
+            document.getElementById('activeChatWrapper').classList.remove('hidden');
+            document.getElementById('chatHeaderName').innerText = userName;
+            document.getElementById('chatHeaderSubject').innerText = `الموضوع: ${subject}`;
+
+            if (unsubscribeChat) unsubscribeChat();
+
+            unsubscribeChat = db.collection('support_requests').doc(ticketId).collection('chats')
+                .orderBy('time', 'asc')
+                .onSnapshot((snapshot) => {
+                    const msgContainer = document.getElementById('messagesContainer');
+                    msgContainer.innerHTML = "";
+
+                    snapshot.forEach((msgDoc) => {
+                        const msgData = msgDoc.data();
+                        const isAdmin = msgData.sender === 'admin';
+
+                        const bubble = document.createElement('div');
+                        bubble.className = `flex ${isAdmin ? 'justify-start' : 'justify-end'} w-full`;
+                        bubble.innerHTML = `
+                            <div class="max-w-[80%] p-2 rounded-xl text-xs ${isAdmin ? 'bg-[#0d48a1] text-white' : 'bg-white text-gray-800 border border-gray-200'}">
+                                <p>${msgData.text}</p>
+                            </div>
+                        `;
+                        msgContainer.appendChild(bubble);
+                    });
+                    msgContainer.scrollTop = msgContainer.scrollHeight;
+                });
+        }
+
+        // إرسال رسائل الرد من الأدمن في الشات الحي
+        document.getElementById('chatInputForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentTicketId) return;
+
+            const inputElement = document.getElementById('adminMessageInput');
+            const text = inputElement.value.trim();
+            if (!text) return;
+
+            inputElement.value = "";
+
+            try {
+                await db.collection('support_requests').doc(currentTicketId).collection('chats').add({
+                    sender: 'admin',
+                    text: text,
+                    time: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                await db.collection('support_requests').doc(currentTicketId).update({
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            } catch (err) {
+                alert("فشل إرسال الرسالة: " + err.message);
+            }
+        });
+
+        window.onload = function() {
+            loadAllUsers();
+            listenToSupportTickets();
+        };
+    </script>
+</body>
+</html>
