@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>404 — منصة التوفيق التعليمية</title>
-  <link rel="icon" type="image/png" href="https://omartamer.netlify.app/صورة زعيم البرمجة.png"/>
+  <link rel="icon" type="image/png" href="https://altawfiq.netlify.app/altawfiq.png"/>
   
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
@@ -46,10 +46,11 @@
       width:100px;height:100px;border-radius:50%;margin-bottom:15px;
       border:3px solid #fff;box-shadow:0 0 20px rgba(0,0,0,0.4);
       object-fit: cover;
+      background: #fff;
     }
 
     h1{
-      font-size:38px;font-weight: 900;margin-bottom:10px;text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      font-size:32px;font-weight: 900;margin-bottom:10px;text-shadow: 0 2px 10px rgba(0,0,0,0.3);
     }
     p{
       font-size:16px;margin-bottom:25px;opacity:0.95;line-height: 1.6;
@@ -77,9 +78,11 @@
       font-weight:700;
       text-decoration:none;
       color:#fff;
-      font-size: 13px;
-      transition:0.3s-all;
+      font-size: 14px;
+      transition:0.3s all;
       flex: 1;
+      cursor: pointer;
+      text-align: center;
     }
     .btn-main {
       background:#0d48a1; /* اللون الأزرق المعتمد للمنصة */
@@ -94,7 +97,92 @@
     }
     .btn-secondary:hover{background:rgba(255,255,255,0.15)}
 
-    .small{margin-top:25px;font-size:12px;opacity:0.7;font-weight: bold;}
+    .small{margin-top:25px;font-size:12px;opacity:0.8;font-weight: bold;line-height: 1.5;}
+
+    /* نافذة الدعم الفني المنبثقة */
+    .support-modal {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.3s ease;
+    }
+    .support-modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .modal-content {
+      background: #ffffff;
+      color: #333;
+      padding: 25px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 400px;
+      text-align: right;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      position: relative;
+    }
+    .modal-content h3 {
+      margin-bottom: 15px;
+      color: #0d48a1;
+      font-weight: 700;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #555;
+    }
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-family: 'Cairo', sans-serif;
+      font-size: 14px;
+      outline: none;
+    }
+    .form-group input:focus, .form-group textarea:focus {
+      border-color: #0d48a1;
+    }
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .btn-send {
+      background: #25d366;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Cairo', sans-serif;
+      font-weight: bold;
+      flex: 2;
+    }
+    .btn-send:hover { background: #20ba5a; }
+    .btn-close {
+      background: #e0e0e0;
+      color: #333;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Cairo', sans-serif;
+      font-weight: bold;
+      flex: 1;
+    }
+    .btn-close:hover { background: #d5d5d5; }
   </style>
 </head>
 <body>
@@ -106,7 +194,7 @@
   <div class="overlay"></div>
 
   <div class="container">
-    <img src="https://omartamer.netlify.app/صورة زعيم البرمجة.png" alt="شعار منصة التوفيق" class="logo"/>
+    <img src="https://altawfiq.netlify.app/altawfiq.png" alt="شعار منصة التوفيق" class="logo"/>
     
     <h1>عذراً، خطأ 404</h1>
     <p>يبدو أن الرابط <span id="path"></span> غير موجود أو تم نقله لمكان آخر داخل المنصة.<br> 
@@ -114,15 +202,78 @@
     
     <div class="buttons-group">
         <a href="/" class="btn btn-main"><i class="fa-solid fa-house"></i> رئيسية المنصة </a>
-        <a href="https://omartamer.netlify.app/contact" target="_blank" class="btn btn-secondary"> الدعم الفني </a>
+        <button onclick="openSupportModal()" class="btn btn-secondary"> الدعم الفني </button>
     </div>
 
-    <div class="small">© 2026 منصة التوفيق التعليمية | برمجة وتطوير زعيم البرمجة</div>
+    <div class="small">
+      © 2026 منصة التوفيق التعليمية <br>
+      لتحفيظ القرآن وتأسيس اللغة العربية
+    </div>
+  </div>
+
+  <div class="support-modal" id="supportModal">
+    <div class="modal-content">
+      <h3><i class="fa-solid fa-headset"></i> الدعم الفني للمنصة</h3>
+      <p style="color:#666; font-size:13px; margin-bottom:15px;">يسعدنا مساعدتك، برجاء ملء البيانات التالية لإرسالها مباشرة عبر الواتساب:</p>
+      
+      <div class="form-group">
+        <label>الاسم بالكامل</label>
+        <input type="text" id="studentName" placeholder="اكتب اسمك هنا">
+      </div>
+      
+      <div class="form-group">
+        <label>رقم الهاتف</label>
+        <input type="tel" id="studentPhone" placeholder="اكتب رقم الهاتف">
+      </div>
+      
+      <div class="form-group">
+        <label>وصف المشكلة</label>
+        <textarea id="studentMessage" rows="3" placeholder="اشرح المشكلة التي تواجهك داخل المنصة"></textarea>
+      </div>
+      
+      <div class="modal-actions">
+        <button class="btn-send" onclick="sendToWhatsApp()"><i class="fa-brands fa-whatsapp"></i> إرسال المشكلة</button>
+        <button class="btn-close" onclick="closeSupportModal()">إلغاء</button>
+      </div>
+    </div>
   </div>
 
   <script>
     // عرض المسار الحالي الذي دخله الطالب بالخطأ برمجياً
     document.getElementById("path").textContent = decodeURIComponent(location.pathname);
+
+    // فتح وإغلاق مربع الدعم الفني
+    function openSupportModal() {
+      document.getElementById("supportModal").classList.add("active");
+    }
+    function closeSupportModal() {
+      document.getElementById("supportModal").classList.remove("active");
+    }
+
+    // تجهيز وإرسال البيانات للواتساب
+    function sendToWhatsApp() {
+      const name = document.getElementById("studentName").value.trim();
+      const phone = document.getElementById("studentPhone").value.trim();
+      const message = document.getElementById("studentMessage").value.trim();
+
+      if(!name || !phone || !message) {
+        alert("برجاء ملء جميع الحقول المطلوبة لمساعدتك بشكل صحيح.");
+        return;
+      }
+
+      // تنسيق نص الرسالة
+      const text = `*طلب دعم فني من منصة التوفيق*%0A%0A`
+                 + `*الاسم:* ${name}%0A`
+                 + `*رقم الهاتف:* ${phone}%0A`
+                 + `*المشكلة:* ${message}`;
+
+      // الرابط المباشر للرقم المحدد
+      const whatsappURL = `https://wa.me/201025146333?text=${text}`;
+      
+      // فتح الواتساب في نافذة جديدة
+      window.open(whatsappURL, '_blank');
+      closeSupportModal();
+    }
   </script>
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
