@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title> منصة_التوفيق | Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <link rel="icon" type="image/png" href="https://altawfiq.netlify.app/altawfiq.png">
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+    <style>
+        :root {
+            --main-blue: #0d48a1;
+            --second-blue: #1e88e5;
+            --accent-gold: #fbbc04;
+            --bg-gradient: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+            --glass: rgba(255, 255, 255, 0.9);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Cairo', sans-serif !important;
+            background: var(--bg-gradient);
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+        .main-container { display: grid; grid-template-columns: 1fr 1fr; height: 100vh; width: 100%; }
+        .login-side {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            display: flex; align-items: center; justify-content: center;
+            padding: 1.5rem; box-shadow: -10px 0 30px rgba(0,0,0,0.05);
+            overflow-y: auto;
+        }
+        .form-wrapper { width: 100%; max-width: 400px; text-align: center; }
+        .input-group { margin-bottom: 1rem; text-align: right; }
+        label { font-weight: 700; margin-bottom: 5px; display: block; color: #444; font-size: 0.9rem; }
+        input, textarea {
+            width: 100%; padding: 12px; border: 2px solid #ddd;
+            border-radius: 10px; font-family: 'Cairo', sans-serif; transition: 0.3s;
+        }
+        input:focus { border-color: var(--main-blue); outline: none; box-shadow: 0 0 8px rgba(13, 72, 161, 0.1); }
+        .btn-login {
+            width: 100%; padding: 12px; background: linear-gradient(45deg, var(--main-blue), var(--second-blue));
+            color: white; border: none; border-radius: 10px; font-weight: 900;
+            font-size: 1rem; cursor: pointer; transition: 0.3s; margin-top: 5px;
+        }
+        .btn-login:disabled { background: #ccc; cursor: not-allowed; }
+        .social-buttons { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+        .btn-social {
+            width: 100%; padding: 10px; background: white; color: #555;
+            border: 2px solid #ddd; border-radius: 10px; font-weight: 700;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            cursor: pointer; transition: 0.3s; font-size: 0.9rem;
+        }
+        .btn-social:hover { background: #f9f9f9; border-color: #bbb; }
+        .forgot-pass {
+            display: block; margin-top: 10px; color: var(--second-blue);
+            font-size: 0.85rem; text-decoration: none; cursor: pointer; font-weight: 600;
+        }
+        .info-side { display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 2rem; text-align: center; }
+        .info-side h1 { font-size: 5rem; font-weight: 900; background: linear-gradient(to bottom, var(--main-blue), var(--second-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .help-fab {
+            position: fixed; bottom: 20px; right: 20px; background: var(--accent-gold);
+            width: 55px; height: 55px; border-radius: 50%; display: flex;
+            align-items: center; justify-content: center; font-size: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2); cursor: pointer; border: none; z-index: 999;
+        }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); backdrop-filter: blur(4px); }
+        .modal-content {
+            background-color: white; position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%); padding: 20px; border-radius: 15px;
+            width: 90%; max-width: 450px; max-height: 90vh; overflow-y: auto;
+        }
+        .close { float: left; font-size: 24px; font-weight: bold; cursor: pointer; color: #888; }
+        @media (max-width: 900px) { .main-container { grid-template-columns: 1fr; } .info-side { display: none; } }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <section class="login-side">
+            <div class="form-wrapper">
+                <h2 style="color: var(--main-blue); font-weight: 900; margin-bottom: 20px;">منصة_التوفيق</h2>
+                                
+                <form id="loginForm">
+                   <div class="input-group">
+                        <label>الرقم التعريفي (ID) أو البريد الإلكتروني</label>
+                        <input type="text" id="loginIdOrEmail" placeholder="اكتب الـ ID أو الإيميل الخاص بك" required>
+                    </div>
+                    <div class="input-group">
+                        <label>كلمة المرور</label>
+                        <input type="password" id="loginPassword" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn-login" id="submitLogin">تسجيل الدخول</button>
+                </form>
+
+                <div style="margin: 15px 0; color: #ccc; font-size: 0.8rem;">أو عبر الحسابات الاجتماعية</div>
+                                
+                <div class="social-buttons">
+                    <!-- جوجل فقط -->
+                    <button class="btn-social" onclick="googleLoginWithCheck()">
+                        <img src="https://www.gstatic.com/images/branding/searchlogo/ico/favicon.ico" width="18" alt="G">
+                        تسجيل الدخول بواسطة جوجل
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="info-side">
+            <h1>منصة_التوفيق</h1>
+            <h2 style="color: #333; margin-top: -10px;">وما توفيقي الي بالله </h2>
+            <p style="color: #666; max-width: 350px; margin-top: 15px;">منصة متخصصة في تعليم الطلاب اللغة العربية و القرآن     </p>
+        </section>
+    </div>
+
+    
+
+   <script>
+    // --- 1. إعدادات فيربيس ---
+    const firebaseConfig = {
+  apiKey: "AIzaSyCN9vN9zcPa6OCUnzin101OTtyOYBDSPEk",
+  authDomain: "bluetooth-4791f.firebaseapp.com",
+  projectId: "bluetooth-4791f",
+  storageBucket: "bluetooth-4791f.firebasestorage.app",
+  messagingSenderId: "80129288547",
+  appId: "1:80129288547:web:05c480484ba5eb1b908b56",
+  measurementId: "G-51VB9VFYFJ"
+};
+        
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // إجبار تسجيل الخروج عند فتح الصفحة لضمان نظافة الجلسة
+    auth.signOut(); 
+
+    // --- 2. سكريبت تسجيل الدخول المتطور (ID أو Email) ---
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const inputVal = document.getElementById('loginIdOrEmail').value.trim();
+        const pass = document.getElementById('loginPassword').value;
+        const btn = document.getElementById('submitLogin');
+
+        btn.disabled = true;
+        btn.innerText = "جاري التحقق...";
+
+        try {
+            let userData = null;
+            let finalUserId = null;
+
+            // الخطوة أ: محاولة البحث كـ ID مباشر (اسم الوثيقة)
+            const idRef = db.collection('custom_users').doc(inputVal);
+            const idDoc = await idRef.get();
+
+            if (idDoc.exists) {
+                userData = idDoc.data();
+                finalUserId = inputVal;
+            } else {
+                // الخطوة ب: إذا لم نجد الـ ID، نبحث في حقل البريد الإلكتروني (email) داخل الوثائق
+                const emailQuery = await db.collection('custom_users').where('email', '==', inputVal).get();
+                if (!emailQuery.empty) {
+                    userData = emailQuery.docs[0].data();
+                    finalUserId = emailQuery.docs[0].id; 
+                }
+            }
+
+            // الخطوة ج: مراجعة البيانات والتحقق من الباسورد
+            if (userData) {
+                if (userData.pass === pass) {
+                    localStorage.setItem('omar_media_user_id', finalUserId);
+                    localStorage.setItem('user_name', userData.name || "مستخدم");
+                    window.location.href = "home.html";
+                } else {
+                    alert("⚠️ كلمة المرور غير صحيحة");
+                }
+            } else {
+                alert("❌ هذا الحساب (ID أو بريد إلكتروني) غير مسجل لدينا");
+            }
+
+        } catch (error) {
+            console.error(error);
+            alert("حدث خطأ في الاتصال بالخادم");
+        } finally {
+            btn.disabled = false;
+            btn.innerText = "تسجيل الدخول";
+        }
+    });
+
+    // --- 3. تسجيل دخول جوجل المشروط (يجب أن يكون مسجلاً مسبقاً من الأدمن) ---
+   // --- 3. تسجيل دخول جوجل المشروط (المعدل لحل المشاكل ومعرفة الخطأ) ---
+    function googleLoginWithCheck() {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        
+        // استخدام signInWithPopup وإضافة كود لتتبع الخطأ بوضوح
+        auth.signInWithPopup(provider)
+            .then(async (result) => {
+                const userEmail = result.user.email;
+
+                // الاستعلام من قاعدة البيانات للتحقق من وجود إيميل جوجل
+                const userQuery = await db.collection('custom_users').where('email', '==', userEmail).get();
+
+                if (!userQuery.empty) {
+                    const userDoc = userQuery.docs[0];
+                    localStorage.setItem('omar_media_user_id', userDoc.id);
+                    localStorage.setItem('user_name', userDoc.data().name || result.user.displayName || "مستخدم");
+                    
+                    window.location.href = "home.html";
+                } else {
+                    auth.signOut();
+                    alert("❌ عذراً! حساب جوجل هذا غير مسجل مسبقاً بالنظام بواسطة الإدارة.");
+                }
+            })
+            .catch((error) => {
+                console.error("Firebase Auth Error Details:", error);
+                
+                // تنبيه ذكي للمطور يوضح سبب المشكلة الحقيقي
+                if (error.code === 'auth/operation-not-allowed') {
+                    alert("⚠️ خطأ: يجب عليك تفعيل تسجيل الدخول بواسطة Google من داخل الـ Firebase Console أولاً!");
+                } else if (error.code === 'auth/popup-blocked') {
+                    alert("⚠️ تم حظر النافذة المنبثقة بواسطة المتصفح، يرجى السماح بالنوافذ المنبثقة للموقع أو استخدام متصفح آخر.");
+                } else {
+                    alert("حدث خطأ أثناء الاتصال بحساب جوجل: " + error.message);
+                }
+            });
+    }
+
+    // --- 4. إرسال مشكلة للدعم الفني مع التحقق من وجود الإيميل ---
+   
+    // وظائف المودال (النافذة المنبثقة)
+    function openHelp() { document.getElementById('helpModal').style.display = 'block'; }
+    function closeHelp() { document.getElementById('helpModal').style.display = 'none'; }
+    window.onclick = (e) => { if(e.target == document.getElementById('helpModal')) closeHelp(); }
+   </script>
+</body>
+</html>
