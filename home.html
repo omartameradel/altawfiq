@@ -61,15 +61,32 @@
 
     <main class="flex-1 h-screen overflow-y-auto p-8 relative">
         <div id="tab-home" class="tab-content space-y-6">
-            <div class="flex items-center justify-between">
-                <h2 class="text-xl font-bold text-gray-800">أحدث الأخبار والفعاليات</h2>
-<h3 class="text-sm font-semibold text-gray-600">أهلاً بك، <span id="welcomeNameDisplay" class="text-blue-700 cursor-pointer hover:underline hover:text-blue-900 transition-colors" onclick="if(typeof switchTab === 'function') switchTab('profile')">   جاري التحميل...</span> 👋</h3>            </div>
-            <div class="relative w-full h-80 bg-gray-200 rounded-3xl overflow-hidden shadow-sm border border-gray-100">
-                <img id="sliderImage" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200" class="w-full h-full object-cover transition-all duration-700" alt="Slider">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end p-8">
-                    <p id="sliderCaption" class="text-white font-bold text-xl leading-relaxed">مرحباً بك في منصة التوفيق</p>
-                </div>
-            </div>
+     <!-- قسم الهيدر (العنوان + الاسم والصورة الشخصية) -->
+<div class="flex items-center justify-between flex-wrap gap-4 mb-4">
+    <h2 class="text-xl font-bold text-gray-800">أحدث الأخبار والفعاليات</h2>
+    
+    <!-- منطقة الترحيب: تجمع الصورة والاسم فريح بعض -->
+    <div class="flex items-center gap-2">
+        <!-- الصورة الشخصية للمستخدم -->
+        <img id="welcomeAvatarDisplay" src="https://via.placeholder.com/150" alt="Avatar" class="w-8 h-8 rounded-full object-cover border border-gray-200 shadow-sm">
+        
+        <!-- نص الترحيب والاسم قابل للضغط -->
+        <h3 class="text-sm font-semibold text-gray-600">
+            أهلاً بك، 
+            <a href="#profile" onclick="if(typeof switchTab === 'function') { switchTab('profile'); }" class="text-blue-700 hover:text-blue-900 hover:underline cursor-pointer transition-colors">
+                <span id="welcomeNameDisplay">جاري التحميل...</span>
+            </a> 👋
+        </h3>
+    </div>
+</div>
+
+<!-- قسم السلايدر (المعرض) -->
+<div class="relative w-full h-80 bg-gray-200 rounded-3xl overflow-hidden shadow-sm border border-gray-100">
+    <img id="sliderImage" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200" class="w-full h-full object-cover transition-all duration-700" alt="Slider">
+    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end p-8">
+        <p id="sliderCaption" class="text-white font-bold text-xl leading-relaxed">مرحباً بك في منصة التوفيق</p>
+    </div>
+</div>
             <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm space-y-4">
                 <div class="flex items-center justify-between border-b border-gray-50 pb-3">
                     <h3 class="font-bold text-gray-800 text-base flex items-center gap-2">
