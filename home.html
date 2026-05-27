@@ -63,8 +63,7 @@
         <div id="tab-home" class="tab-content space-y-6">
             <div class="flex items-center justify-between">
                 <h2 class="text-xl font-bold text-gray-800">أحدث الأخبار والفعاليات</h2>
-                <h3 class="text-sm font-semibold text-gray-600">أهلاً بك، <span id="welcomeNameDisplay" class="text-blue-700">جاري التحميل...</span> 👋</h3>
-            </div>
+<h3 class="text-sm font-semibold text-gray-600">أهلاً بك، <span id="welcomeNameDisplay" class="text-blue-700 cursor-pointer hover:underline hover:text-blue-900 transition-colors" onclick="if(typeof switchTab === 'function') switchTab('profile')">   جاري التحميل...</span> 👋</h3>            </div>
             <div class="relative w-full h-80 bg-gray-200 rounded-3xl overflow-hidden shadow-sm border border-gray-100">
                 <img id="sliderImage" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200" class="w-full h-full object-cover transition-all duration-700" alt="Slider">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end p-8">
