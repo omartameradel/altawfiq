@@ -24,27 +24,34 @@
                 <span class="text-xs text-gray-500 block">مرحباً بك</span>
                 <span id="topUsernameDisplay" class="text-sm font-bold text-[#0d48a1]">جاري التحميل...</span>
             </div>
+            
             <nav class="space-y-1">
-                <button onclick="switchTab('home')" id="btn-home" class="sidebar-link active w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 font-semibold text-sm transition-all hover:bg-gray-50">
-                    <i class="fa-solid fa-house text-lg"></i> <span> <a href="#home">الرئيسية</a></span>
-                </button>
-                <button onclick="switchTab('sessions')" id="btn-sessions" class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 font-semibold text-sm transition-all hover:bg-gray-50">
-                    <i class="fa-solid fa-video text-lg"></i> </span><a href="#sessions">الجلسات والمحاضرات </a></span>
-                </button>
-                <button onclick="switchTab('community')" id="btn-community" class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 font-semibold text-sm transition-all hover:bg-gray-50">
-                    <i class="fa-solid fa-comments text-lg"></i> </span><a href="#chat">محادثة المشرف </a></span>
-                </button>
-                <button onclick="switchTab('resources')" id="btn-resources" class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 font-semibold text-sm transition-all hover:bg-gray-50">
-                    <i class="fa-solid fa-folder-open text-lg"></i> <span> <a href="#resources">المصادر</a></span>
-                </button>
-                <button onclick="switchTab('support')" id="btn-support" class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 font-semibold text-sm transition-all hover:bg-gray-50">
-                    <i class="fa-solid fa-headset text-lg"></i> <span></span><a href="#support">الدعم الفني</a></span>
-                </button>
-                <button onclick="switchTab('profile')" id="btn-profile" class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 font-semibold text-sm transition-all hover:bg-gray-50">
-                    <i class="fa-solid fa-user-gear text-lg"></i> </span><a href="#profile">الملف الشخصي </a></span>
-                </button>
+                <a href="#home" onclick="switchTab('home')" id="btn-home" class="sidebar-link active w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 font-semibold text-sm transition-all hover:bg-gray-50">
+                    <i class="fa-solid fa-house text-lg"></i> <span>الرئيسية</span>
+                </a>
+                
+                <a href="#sessions" onclick="switchTab('sessions')" id="btn-sessions" class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 font-semibold text-sm transition-all hover:bg-gray-50">
+                    <i class="fa-solid fa-video text-lg"></i> <span>الجلسات والمحاضرات</span>
+                </a>
+                
+                <a href="#community" onclick="switchTab('community')" id="btn-community" class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 font-semibold text-sm transition-all hover:bg-gray-50">
+                    <i class="fa-solid fa-comments text-lg"></i> <span>محادثة المشرف</span>
+                </a>
+                
+                <a href="#resources" onclick="switchTab('resources')" id="btn-resources" class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 font-semibold text-sm transition-all hover:bg-gray-50">
+                    <i class="fa-solid fa-folder-open text-lg"></i> <span>المصادر</span>
+                </a>
+                
+                <a href="#support" onclick="switchTab('support')" id="btn-support" class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 font-semibold text-sm transition-all hover:bg-gray-50">
+                    <i class="fa-solid fa-headset text-lg"></i> <span>الدعم الفني</span>
+                </a>
+                
+                <a href="#profile" onclick="switchTab('profile')" id="btn-profile" class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 font-semibold text-sm transition-all hover:bg-gray-50">
+                    <i class="fa-solid fa-user-gear text-lg"></i> <span>الملف الشخصي</span>
+                </a>
             </nav>
         </div>
+        
         <div class="p-5 border-t border-gray-100">
             <button onclick="logout()" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 font-bold text-sm transition-all hover:bg-red-50">
                 <i class="fa-solid fa-right-from-bracket text-lg"></i> <span>تسجيل الخروج</span>
