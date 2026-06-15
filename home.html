@@ -16,6 +16,17 @@
     </style>
 </head>
 <body class="flex min-h-screen overflow-hidden">
+    <!-- رسالة تحذير الهاتف -->
+<!-- رسالة تحذير الهاتف والتابلت -->
+<div id="mobileWarning" class="fixed inset-0 bg-blue-900 z-[9999] hidden xl:hidden flex flex-col items-center justify-center p-6 text-center text-white">
+    <!-- أيقونة كمبيوتر -->
+    <i class="fa-solid fa-desktop text-6xl mb-6 animate-pulse"></i>
+    <h2 class="text-2xl font-bold mb-4">عذراً، المنصة للأجهزة المكتبية فقط</h2>
+    <p class="text-blue-100 max-w-sm">
+        تم تصميم هذه المنصة للاستخدام على أجهزة الكمبيوتر المكتبية والمحمولة فقط. 
+        يرجى الوصول إليها من جهاز كمبيوتر للحصول على أفضل تجربة تعليمية.
+    </p>
+</div>
     <aside class="w-64 bg-white border-l border-gray-200 flex flex-col justify-between h-screen sticky top-0 z-50 shadow-sm">
         <div class="p-5">
             <h1 class="text-2xl font-900 text-[#0d48a1] tracking-wide mb-2 border-b border-gray-100 pb-4 text-center">منصة التوفيق</h1>
@@ -947,6 +958,47 @@ function logout() {
         window.location.href = "login.html";
     }
 }
+// دالة التأكد من نوع الجهاز
+function checkDevice() {
+    const mobileWarning = document.getElementById('mobileWarning');
+    // إذا كانت الشاشة أصغر من 1280 بكسل (تشمل التابلت والموبايل)
+    if (window.innerWidth < 1280) {
+        mobileWarning.classList.remove('hidden');
+        mobileWarning.classList.add('flex');
+    } else {
+        mobileWarning.classList.add('hidden');
+    }
+}
+
+window.addEventListener('load', checkDevice);
+window.addEventListener('resize', checkDevice);
+
     </script>
+    <script>// تأكد أنك مستورد Firebase Auth في مشروعك
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.x.x/firebase-auth.js";
+
+const auth = getAuth();
+
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        // المستخدم مسجل دخول، قم بتحديث العناصر
+        const avatarDisplay = document.getElementById('welcomeAvatarDisplay');
+        const nameDisplay = document.getElementById('welcomeNameDisplay');
+
+        // تحديث الاسم
+        if (nameDisplay) {
+            nameDisplay.innerText = user.displayName || "مستخدم";
+        }
+
+        // تحديث الصورة
+        if (avatarDisplay) {
+            // إذا كان المستخدم لديه صورة في بروفايل Firebase
+            avatarDisplay.src = user.photoURL || "https://ui-avatars.com/api/?name=" + (user.displayName || "User");
+        }
+    } else {
+        // المستخدم غير مسجل دخول
+        console.log("لا يوجد مستخدم مسجل");
+    }
+});</script>
 </body>
 </html>
