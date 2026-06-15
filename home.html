@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الرئيسية | منصة التوفيق</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <link rel="icon" type="image/png" href="https://altawfiq.netlify.app/altawfiq.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; }
+        .sidebar-link.active { background-color: #0d48a1; color: white; }
+    </style>
+</head>
+<body class="flex min-h-screen overflow-hidden">
+    <aside class="w-64 bg-white border-l border-gray-200 flex flex-col justify-between h-screen sticky top-0 z-50 shadow-sm">
+        <div class="p-5">
+            <h1 class="text-2xl font-900 text-[#0d48a1] tracking-wide mb-2 border-b border-gray-100 pb-4 text-center">منصة التوفيق</h1>
+            <div class="text-center py-2 mb-4 bg-blue-50 rounded-xl">
+                <span class="text-xs text-gray-500 block">مرحباً بك</span>
+                <span id="topUsernameDisplay" class="text-sm font-bold text-[#0d48a1]">جاري التحميل...</span>
+            </div>
+            
+            <nav class="space-y-1">
+                <a href="#home" onclick="switchTab('home')" id="btn-home" class="sidebar-link active w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 font-semibold text-sm transition-all hover:bg-gray-50">
+                    <i class="fa-solid fa-house text-lg"></i> <span>الرئيسية</span>
+                </a>
+                <a href="#sessions" onclick="switchTab('sessions')" id="btn-sessions" class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 font-semibold text-sm transition-all hover:bg-gray-50">
+                    <i class="fa-solid fa-video text-lg"></i> <span>الجلسات والمحاضرات</span>
+                </a>
+                <a href="#community" onclick="switchTab('community')" id="btn-community" class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 font-semibold text-sm transition-all hover:bg-gray-50">
+                    <i class="fa-solid fa-comments text-lg"></i> <span>محادثة المشرف</span>
+                </a>
+                <a href="#resources" onclick="switchTab('resources')" id="btn-resources" class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 font-semibold text-sm transition-all hover:bg-gray-50">
+                    <i class="fa-solid fa-folder-open text-lg"></i> <span>المصادر</span>
+                </a>
+                <a href="#support" onclick="switchTab('support')" id="btn-support" class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 font-semibold text-sm transition-all hover:bg-gray-50">
+                    <i class="fa-solid fa-headset text-lg"></i> <span>الدعم الفني</span>
+                </a>
+                <a href="#profile" onclick="switchTab('profile')" id="btn-profile" class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 font-semibold text-sm transition-all hover:bg-gray-50">
+                    <i class="fa-solid fa-user-gear text-lg"></i> <span>الملف الشخصي</span>
+                </a>
+            </nav>
+        </div>
+        
+        <div class="p-5 border-t border-gray-100">
+            <button onclick="logout()" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 font-bold text-sm transition-all hover:bg-red-50">
+                <i class="fa-solid fa-right-from-bracket text-lg"></i> <span>تسجيل الخروج</span>
+            </button>
+        </div>
+    </aside>
+
+    <main class="flex-1 h-screen overflow-y-auto p-8 relative">
+        <div id="tab-home" class="tab-content space-y-6">
+            <div class="flex items-center justify-between flex-wrap gap-4 mb-4">
+                <h2 class="text-xl font-bold text-gray-800">أحدث الأخبار والفعاليات</h2>
+                <div class="flex items-center gap-2">
+                    <img id="welcomeAvatarDisplay" src="https://via.placeholder.com/150" alt="Avatar" class="w-8 h-8 rounded-full object-cover border border-gray-200 shadow-sm">
+                    <h3 class="text-sm font-semibold text-gray-600">
+                        أهلاً بك، 
+                        <a href="#profile" onclick="if(typeof switchTab === 'function') { switchTab('profile'); }" class="text-blue-700 hover:text-blue-900 hover:underline cursor-pointer transition-colors">
+                            <span id="welcomeNameDisplay">جاري التحميل...</span>
+                        </a> 👋
+                    </h3>
+                </div>
+            </div>
+
+            <div class="relative w-full h-80 bg-gray-200 rounded-3xl overflow-hidden shadow-sm border border-gray-100">
+                <img id="sliderImage" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200" class="w-full h-full object-cover transition-all duration-700" alt="Slider">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end p-8">
+                    <p id="sliderCaption" class="text-white font-bold text-xl leading-relaxed">مرحباً بك في منصة التوفيق</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm space-y-4">
+                <div class="flex items-center justify-between border-b border-gray-50 pb-3">
+                    <h3 class="font-bold text-gray-800 text-base flex items-center gap-2">
+                        <i class="fa-solid fa-calendar-clock text-blue-600"></i> الجدول الزمني لجلسات اليوم المباشرة
+                    </h3>
+                    <span class="text-xs text-gray-400">يتم التحديث تلقائياً</span>
+                </div>
+                <div id="timelineContainer" class="space-y-3">
+                    <p class="text-xs text-gray-400 text-center py-4">جاري تحميل جدول الجلسات...</p>
+                </div>
+            </div>
+
+            <div class="w-full bg-white rounded-3xl shadow-sm border border-gray-100 p-6 space-y-4" dir="rtl">
+                <div class="mb-2 border-b border-gray-100 pb-4">
+                    <h2 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+                        📅 الجدول الزمني للأكاديمية (السنة الدراسية 2026)
+                    </h2>
+                </div>
+
+                <div class="overflow-x-auto rounded-2xl border border-gray-100">
+                    <table class="w-full text-right border-collapse text-sm">
+                        <thead>
+                            <tr class="bg-gray-50 border-b border-gray-100 text-gray-700 font-bold text-base">
+                                <th class="p-4">الشهر</th>
+                                <th class="p-4">الجلسة / الأسبوع</th>
+                                <th class="p-4">الفصل الدراسي</th>
+                                <th class="p-4">الأيام والتواريخ</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100 text-gray-600">
+                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                <td class="p-4 font-bold text-gray-800 bg-gray-50/30">الشهر الأول</td>
+                                <td class="p-4 font-semibold text-blue-700">الجلسة الأولى</td>
+                                <td class="p-4">  الإجازة الصيفية</td>
+                                <td class="p-4 font-medium">الجمعة 10 أبريل / السبت 11 أبريل</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                <td class="p-4 font-bold text-gray-800 bg-gray-50/30"></td>
+                                <td class="p-4 font-semibold text-blue-700">الجلسة الثانية</td>
+                                <td class="p-4">الإجازة الصيفية  </td>
+                                <td class="p-4 font-medium">الجمعة 17 أبريل / السبت 18 أبريل</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                <td class="p-4 font-bold text-gray-800 bg-gray-50/30"></td>
+                                <td class="p-4 font-semibold text-blue-700">الجلسة الثالثة</td>
+                                <td class="p-4">  الإجازة الصيفية</td>
+                                <td class="p-4 font-medium">الجمعة 24 أبريل / السبت 25 أبريل</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                <td class="p-4 font-bold text-gray-800 bg-gray-50/30"></td>
+                                <td class="p-4 font-semibold text-blue-700">الجلسة الرابعة</td>
+                                <td class="p-4">  الإجازة الصيفية</td>
+                                <td class="p-4 font-medium">الجمعة 1 مايو / السبت 2 مايو</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                <td class="p-4 font-bold text-gray-800 bg-gray-50/30"></td>
+                                <td class="p-4 font-semibold text-blue-700">الجلسة الأولى</td>
+                                <td class="p-4">  الإجازة الصيفية</td>
+                                <td class="p-4 font-medium">الجمعة 8 مايو / السبت 9 مايو</td>
+                            </tr>
+
+                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                <td class="p-4 font-bold text-gray-800 bg-gray-50/30">الشهر الثاني</td>
+                                <td class="p-4 font-semibold text-blue-700">الجلسة الخامسة</td>
+                                <td class="p-4">الإجازة الصيفية</td>
+                                <td class="p-4 font-medium">الجمعة 8 مايو / السبت 9 مايو</td>
+                            </tr>
+
+                          
+
+                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                <td class="p-4 font-bold text-gray-800 bg-gray-50/30">الشهر الثاني</td>
+                                <td class="p-4 font-semibold text-blue-700">الجلسة السادسة</td>
+                                <td class="p-4">  الإجازة الصيفية</td>
+                                <td class="p-4 font-medium">السبت 13 يونيو / الأحد 14 يونيو</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                <td class="p-4 font-bold text-gray-800 bg-gray-50/30"></td>
+                                <td class="p-4 font-semibold text-blue-700">الجلسة السابعة</td>
+                                <td class="p-4 text-amber-600 font-medium">الإجازة الصيفية</td>
+                                <td class="p-4 font-medium">الاثنين 15 يونيو / الثلاثاء 16 يونيو</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                <td class="p-4 font-bold text-gray-800 bg-gray-50/30"></td>
+                                <td class="p-4 font-semibold text-blue-700">الجلسة الثامنة</td>
+                                <td class="p-4 text-amber-600 font-medium">الإجازة الصيفية</td>
+                                <td class="p-4 font-medium">الأربعاء 17 يونيو / الخميس 18 يونيو</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                <td class="p-4 font-bold text-gray-800 bg-gray-50/30"></td>
+                                <td class="p-4 font-semibold text-blue-700">الجلسة الثانية</td>
+                                <td class="p-4 text-amber-600 font-medium">الإجازة الصيفية</td>
+                                <td class="p-4 font-medium">السبت 20 يونيو / الأحد 21 يونيو</td>
+                            </tr>
+
+                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                <td class="p-4 font-bold text-gray-800 bg-gray-50/30">الشهر الثالث</td>
+                                <td class="p-4 font-semibold text-blue-700">الجلسة التاسعة</td>
+                                <td class="p-4 text-amber-600 font-medium">الإجازة الصيفية</td>
+                                <td class="p-4 font-medium">الاثنين 22 يونيو / الثلاثاء 23 يونيو</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                <td class="p-4 font-bold text-gray-800 bg-gray-50/30"></td>
+                                <td class="p-4 font-semibold text-blue-700">الجلسة العاشرة</td>
+                                <td class="p-4 text-amber-600 font-medium">الإجازة الصيفية</td>
+                                <td class="p-4 font-medium">الأربعاء 24 يونيو / الخميس 25 يونيو</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                <td class="p-4 font-bold text-gray-800 bg-gray-50/30"></td>
+                                <td class="p-4 font-semibold text-blue-700">الجلسة 11</td>
+                                <td class="p-4 text-amber-600 font-medium">الإجازة الصيفية</td>
+                                <td class="p-4 font-medium">السبت 27 يونيو / الأحد 28 يونيو</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                <td class="p-4 font-bold text-gray-800 bg-gray-50/30"></td>
+                                <td class="p-4 font-semibold text-blue-700">الجلسة 12</td>
+                                <td class="p-4 text-amber-600 font-medium">الإجازة الصيفية</td>
+                                <td class="p-4 font-medium">الاثنين 29 يونيو / الثلاثاء 30 يونيو</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                <td class="p-4 font-bold text-gray-800 bg-gray-50/30"></td>
+                                <td class="p-4 font-semibold text-blue-700">الجلسة الثالثة</td>
+                                <td class="p-4 text-amber-600 font-medium">الإجازة الصيفية</td>
+                                <td class="p-4 font-medium">الأربعاء 1 يوليو / الخميس 2 يوليو</td>
+                            </tr>
+
+                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                <td class="p-4 font-bold text-gray-800 bg-gray-50/30">الشهر الرابع</td>
+                                <td class="p-4 font-semibold text-blue-700">الجلسة 13</td>
+                                <td class="p-4 text-amber-600 font-medium">الإجازة الصيفية</td>
+                                <td class="p-4 font-medium">السبت 4 يوليو / الأحد 5 يوليو</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                <td class="p-4 font-bold text-gray-800 bg-gray-50/30"></td>
+                                <td class="p-4 font-semibold text-blue-700">الجلسة 14</td>
+                                <td class="p-4 text-amber-600 font-medium">الإجازة الصيفية</td>
+                                <td class="p-4 font-medium">الاثنين 6 يوليو / الثلاثاء 7 يوليو</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                <td class="p-4 font-bold text-gray-800 bg-gray-50/30"></td>
+                                <td class="p-4 font-semibold text-blue-700">الجلسة 15</td>
+                                <td class="p-4 text-amber-600 font-medium">الإجازة الصيفية</td>
+                                <td class="p-4 font-medium">الأربعاء 8 يوليو / الخميس 9 يوليو</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                <td class="p-4 font-bold text-gray-800 bg-gray-50/30"></td>
+                                <td class="p-4 font-semibold text-blue-700">الجلسة 16</td>
+                                <td class="p-4 text-amber-600 font-medium">الإجازة الصيفية</td>
+                                <td class="p-4 font-medium">السبت 11 يوليو / الأحد 12 يوليو</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                <td class="p-4 font-bold text-gray-800 bg-gray-50/30"></td>
+                                <td class="p-4 font-semibold text-blue-700">الجلسة الرابعة</td>
+                                <td class="p-4 text-amber-600 font-medium">الإجازة الصيفية</td>
+                                <td class="p-4 font-medium">الاثنين 13 يوليو / الثلاثاء 14 يوليو</td>
+                            </tr>
+
+                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                <td class="p-4 font-bold text-gray-800 bg-gray-50/30">الشهر الخامس</td>
+                                <td class="p-4 font-semibold text-blue-700">الجلسة 17</td>
+                                <td class="p-4 text-amber-600 font-medium">الإجازة الصيفية</td>
+                                <td class="p-4 font-medium">الأربعاء 15 يوليو / الخميس 16 يوليو</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                <td class="p-4 font-bold text-gray-800 bg-gray-50/30"></td>
+                                <td class="p-4 font-semibold text-blue-700">الجلسة 18</td>
+                                <td class="p-4 text-amber-600 font-medium">الإجازة الصيفية</td>
+                                <td class="p-4 font-medium">السبت 18 يوليو / الأحد 19 يوليو</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                <td class="p-4 font-bold text-gray-800 bg-gray-50/30"></td>
+                                <td class="p-4 font-semibold text-blue-700">الجلسة 19</td>
+                                <td class="p-4 text-amber-600 font-medium">الإجازة الصيفية</td>
+                                <td class="p-4 font-medium">الاثنين 20 يوليو / الثلاثاء 21 يوليو</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                <td class="p-4 font-bold text-gray-800 bg-gray-50/30"></td>
+                                <td class="p-4 font-semibold text-blue-700">الجلسة 20</td>
+                                <td class="p-4 text-amber-600 font-medium">الإجازة الصيفية</td>
+                                <td class="p-4 font-medium">الأربعاء 22 يوليو / الخميس 23 يوليو</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50/50 transition-colors">
+                                <td class="p-4 font-bold text-gray-800 bg-gray-50/30"></td>
+                                <td class="p-4 font-semibold text-blue-700">الجلسة الخامسة</td>
+                                <td class="p-4 text-amber-600 font-medium">الإجازة الصيفية</td>
+                                <td class="p-4 font-medium">السبت 25 يوليو / الأحد 26 يوليو</td>
+                            </tr>
+
+                           
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="p-4 bg-amber-50 rounded-2xl border border-amber-100 flex items-start gap-2 text-amber-800">
+                    <span class="text-base mt-0.5">📌</span>
+                    <p class="text-sm font-medium leading-relaxed">
+                        <strong>ملاحظة هامة للطلاب:</strong> يقوم الطلاب باختيار حضور الجلسات في المجموعة الأولى (أيام السبت والثلاثاء) أو في المجموعة الثانية (أيام الاحد و الاربعاء)، ويتم تثبيت المجموعة أثناء الإجازة الصيفية وطبقاً للأيام المدرجة بالجدول الزمني.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-blue-50 border border-blue-100 p-6 rounded-2xl cursor-pointer" onclick="switchTab('community')">
+                    <h3 class="font-bold text-blue-900 mb-2">محادثة المشرف الخاصة</h3>
+                    <p class="text-xs text-blue-700 leading-relaxed">تواصل الآن مع مشرف المنصة بشكل آمن ومباشر لمناقشة ومتابعة دروسك اليومية.</p>
+                </div>
+                <div class="bg-emerald-50 border border-emerald-100 p-6 rounded-2xl cursor-pointer" onclick="switchTab('resources')">
+                    <h3 class="font-bold text-emerald-900 mb-2">المصادر والمذكرات المخصصة</h3>
+                    <p class="text-xs text-emerald-700 leading-relaxed">تصفح وحمّل ملفات الـ PDF والفيديوهات والصور التعليمية المرسلة إليك من الإدارة خصيصاً.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-sessions" class="tab-content hidden space-y-6">
+            <h2 class="text-xl font-bold text-gray-800"><i class="fa-solid fa-video text-blue-600 ml-2"></i> دليل غرف ومواعيد الجلسات المباشرة</h2>
+            <div id="allSessionsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        </div>
+
+        <div id="tab-community" class="tab-content hidden flex flex-col h-[calc(100vh-4rem)] bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="p-4 border-b border-gray-100 bg-gray-50 flex items-center justify-between">
+                <h2 class="font-bold text-gray-800 text-sm"><i class="fa-solid fa-comments text-blue-600 ml-2"></i> المحادثة المباشرة مع المشرف الخاص بك</h2>
+                <span class="text-xs bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full font-semibold">Live  </span>
+            </div>
+            <div id="globalChatContainer" class="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50 flex flex-col"></div>
+            <form id="globalChatForm" class="p-3 border-t border-gray-100 flex gap-2">
+                <input type="text" id="globalMessageInput" class="flex-1 border border-gray-300 rounded-xl px-4 py-2.5 text-xs outline-none focus:border-blue-600" placeholder="اكتب رسالة خاصة للمشرف..." required autocomplete="off">
+                <button type="submit" class="bg-blue-900 text-white px-5 py-2.5 rounded-xl text-xs font-bold hover:bg-blue-800 transition-all">إرسال للمشرف</button>
+            </form>
+        </div>
+
+        <div id="tab-resources" class="tab-content hidden space-y-6">
+            <h2 class="text-xl font-bold text-gray-800"><i class="fa-solid fa-folder-open text-amber-500 ml-2"></i> مكتبة المصادر والمرفقات المخصصة لك</h2>
+            <div id="resourcesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </div>
+
+        <div id="tab-support" class="tab-content hidden flex flex-col h-[calc(100vh-4rem)] bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="p-4 border-b border-gray-100 bg-gray-50">
+                <h2 class="font-bold text-gray-800 text-sm"><i class="fa-solid fa-headset text-red-500 ml-2"></i> محادثة دعم فني مباشرة وخاصة</h2>
+                <p class="text-[11px] text-gray-500 mt-0.5">رسائلك هنا لا يراها أحد سوى  المشرفين للرد على استفسارك.</p>
+            </div>
+            <div id="supportChatContainer" class="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50 flex flex-col"></div>
+            <form id="supportChatForm" class="p-3 border-t border-gray-100 flex gap-2">
+                <input type="text" id="supportMessageInput" class="flex-1 border border-gray-300 rounded-xl px-4 py-2.5 text-xs outline-none focus:border-blue-600" placeholder="اشرح مشكلتك هنا  بالتفصيل..." required autocomplete="off">
+                <button type="submit" class="bg-amber-500 text-white px-5 py-2.5 rounded-xl text-xs font-bold hover:bg-amber-600 transition-all">إرسال للدعم</button>
+            </form>
+        </div>
+
+        <div id="tab-profile" class="tab-content hidden max-w-2xl mx-auto bg-white rounded-3xl p-8 border border-gray-100 shadow-sm space-y-6">
+            <div class="flex items-center gap-6 border-b border-gray-100 pb-6">
+                <div class="relative group">
+                    <img id="profileAvatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="w-24 h-24 rounded-full object-cover border-4 border-blue-50 shadow-sm" alt="Avatar">
+                    <label class="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center text-white text-xs opacity-0 group-hover:opacity-100 cursor-pointer transition-all">
+                        <i class="fa-solid fa-camera text-base"></i>
+                        <input type="file" id="avatarFileInput" accept="image/*" class="hidden" onchange="uploadProfileAvatar()">
+                    </label>
+                </div>
+                <div>
+                    <h2 id="profileNameDisplay" class="text-xl font-bold text-gray-800">جاري تحميل الاسم...</h2>
+                    <p class="text-xs text-gray-400 mt-1">تعديل وتأمين ملفك الشخصي بالمنصة</p>
+                </div>
+            </div>
+            <form id="profileUpdateForm" class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 mb-1">الرقم التعريفي للمستخدم (ID) 🔒</label>
+                        <input type="text" id="profileId" class="w-full bg-gray-50 border border-gray-200 text-gray-400 rounded-xl p-3 text-sm outline-none cursor-not-allowed" readonly>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 mb-1">البريد الإلكتروني المسجل 🔒</label>
+                        <input type="email" id="profileEmail" class="w-full bg-gray-50 border border-gray-200 text-gray-400 rounded-xl p-3 text-sm outline-none cursor-not-allowed" readonly>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">رقم الهاتف الجوال</label>
+                        <input type="tel" id="profilePhone" class="w-full border border-gray-300 rounded-xl p-3 text-sm outline-none focus:border-blue-600" required>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">كلمة المرور الجديدة</label>
+                        <input type="text" id="profilePass" class="w-full border border-gray-300 rounded-xl p-3 text-sm outline-none focus:border-blue-600" required>
+                    </div>
+                </div>
+                <button type="submit" id="saveProfileBtn" class="w-full bg-blue-900 hover:bg-blue-800 text-white font-bold py-3 rounded-xl text-sm transition-all shadow-sm">
+                    حفظ التغييرات المسموحة
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <div id="resourceModal" class="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 hidden backdrop-blur-sm">
+        <div class="bg-white rounded-3xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden shadow-2xl border border-gray-100">
+            <div class="p-4 bg-gray-50 border-b border-gray-100 flex items-center justify-between">
+                <h3 id="modalTitle" class="font-bold text-gray-800 text-base">عرض الملف</h3>
+                <button onclick="closeResourceModal()" class="w-8 h-8 rounded-full bg-gray-200 text-gray-600 hover:bg-red-100 hover:text-red-600 flex items-center justify-center transition-all">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div id="modalBody" class="flex-1 overflow-y-auto p-4 bg-slate-100 flex items-center justify-center min-h-[400px]"></div>
+            <div class="p-4 border-t border-gray-100 bg-gray-50 flex justify-end gap-3">
+                <button id="modalDownloadBtn" onclick="triggerDirectDownload()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm px-6 py-2.5 rounded-xl flex items-center gap-2 shadow-sm transition-all">
+                    <i class="fa-solid fa-download"></i> <span id="downloadBtnText">تحميل الملف للجهاز</span>
+                </button>
+                <button onclick="closeResourceModal()" class="bg-gray-300 hover:bg-gray-400 text-gray-700 font-bold text-sm px-5 py-2.5 rounded-xl transition-all">
+                    إغلاق العرض
+                </button>
+            </div>
+        </div>
+    </div>
+
+    </main>
+
+    <div id="resourceModal" class="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 hidden backdrop-blur-sm">
+        <div class="bg-white rounded-3xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden shadow-2xl border border-gray-100">
+            <div class="p-4 bg-gray-50 border-b border-gray-100 flex items-center justify-between">
+                <h3 id="modalTitle" class="font-bold text-gray-800 text-base">عرض الملف</h3>
+                <button onclick="closeResourceModal()" class="w-8 h-8 rounded-full bg-gray-200 text-gray-600 hover:bg-red-100 hover:text-red-600 flex items-center justify-center transition-all">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div id="modalBody" class="flex-1 overflow-y-auto p-4 bg-slate-100 flex items-center justify-center min-h-[400px]">
+                </div>
+            <div class="p-4 border-t border-gray-100 bg-gray-50 flex justify-end gap-3">
+                <button id="modalDownloadBtn" onclick="triggerDirectDownload()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm px-6 py-2.5 rounded-xl flex items-center gap-2 shadow-sm transition-all">
+                    <i class="fa-solid fa-download"></i> <span id="downloadBtnText">تحميل الملف للجهاز</span>
+                </button>
+                <button onclick="closeResourceModal()" class="bg-gray-300 hover:bg-gray-400 text-gray-700 font-bold text-sm px-5 py-2.5 rounded-xl transition-all">
+                    إغلاق العرض
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // =====================
+    // إعدادات فيربيس وثوابت الجلسة
+    // =====================
+const firebaseConfig = {
+    apiKey: "AIzaSyCN9vN9zcPa6OCUnzin101OTtyOYBDSPEk",
+    authDomain: "bluetooth-4791f.firebaseapp.com",
+    projectId: "bluetooth-4791f",
+    storageBucket: "bluetooth-4791f.firebasestorage.app",
+    messagingSenderId: "80129288547",
+    appId: "1:80129288547:web:05c480484ba5eb1b908b56",
+    measurementId: "G-51VB9VFYFJ"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+const currentUserId = localStorage.getItem('omar_media_user_id') || "user_test";
+let currentUserData = {};
+let activeSessionsData = [];
+
+let currentTargetDownloadUrl = "";
+let currentTargetDownloadName = "";
+let currentTargetType = "";
+
+// =====================
+// السلايدر التلقائي
+// =====================
+const sliderImages = [
+    "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200",
+    "https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=1200",
+    "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=1200"
+];
+
+const sliderCaptions = [
+    "مرحباً بك في منصة  التوفيق",
+    "تابع قسم المصادر  للحصول على ملفات دراسية مخصصة لك",
+    "الدعم الفني متاح دائماً لخدمتك، لا تتردد بالتواصل معنا"
+];
+
+let sliderIndex = 0;
+setInterval(() => {
+    sliderIndex = (sliderIndex + 1) % sliderImages.length;
+    if(document.getElementById('sliderImage')) {
+        document.getElementById('sliderImage').src = sliderImages[sliderIndex];
+        document.getElementById('sliderCaption').innerText = sliderCaptions[sliderIndex];
+    }
+}, 5000);
+
+// =====================
+// التبويبات والتحكم بالصفحات
+// =====================
+function switchTab(tabId) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+    document.querySelectorAll('.sidebar-link').forEach(el => el.classList.remove('active'));
+
+    document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+    document.getElementById(`btn-${tabId}`).classList.add('active');
+
+    if(tabId === 'home' || tabId === 'sessions') {
+        loadSessionsTimeline();
+    }
+    if(tabId === 'community') {
+        loadCommunityChat();
+    }
+    if(tabId === 'resources') {
+        loadResourcesDocs();
+    }
+    if(tabId === 'support') {
+        loadSupportChat();
+    }
+}
+
+// البدء التلقائي وتحميل البيانات الفوري
+loadSessionsTimeline();
+
+// =====================
+// بيانات المستخدم والبروفايل
+// =====================
+async function fetchUserProfile() {
+    try {
+        const doc = await db.collection('custom_users').doc(currentUserId).get();
+        if(doc.exists) {
+            currentUserData = doc.data();
+            const name = currentUserData.name || "عضو المنصة";
+
+            document.getElementById('topUsernameDisplay').innerText = name;
+            document.getElementById('welcomeNameDisplay').innerText = name;
+            document.getElementById('profileNameDisplay').innerText = name;
+
+            document.getElementById('profileId').value = currentUserId;
+            document.getElementById('profileEmail').value = currentUserData.email || "";
+            document.getElementById('profilePhone').value = currentUserData.phone || "";
+            document.getElementById('profilePass').value = currentUserData.pass || "";
+
+            if(currentUserData.avatar) {
+                document.getElementById('profileAvatar').src = currentUserData.avatar;
+            }
+        }
+    } catch(error) {
+        console.error("خطأ أثناء جلب الملف الشخصي:", error);
+    }
+}
+fetchUserProfile();
+
+// تعديل البروفايل وحفظ البيانات
+document.getElementById('profileUpdateForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('saveProfileBtn');
+    btn.disabled = true;
+    btn.innerText = "جاري الحفظ...";
+
+    try {
+        await db.collection('custom_users').doc(currentUserId).update({
+            phone: document.getElementById('profilePhone').value.trim(),
+            pass: document.getElementById('profilePass').value.trim()
+        });
+        alert("✅ تم حفظ البيانات بنجاح");
+    } catch(err) {
+        alert("❌ حدث خطأ أثناء الحفظ");
+    } finally {
+        btn.disabled = false;
+        btn.innerText = "حفظ التغييرات المسموحة";
+    }
+});
+
+function uploadProfileAvatar() {
+    const file = document.getElementById('avatarFileInput').files[0];
+    if(!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = async function() {
+        const base64String = reader.result;
+        document.getElementById('profileAvatar').src = base64String;
+
+        await db.collection('custom_users').doc(currentUserId).update({
+            avatar: base64String
+        });
+        alert("✅ تم تحديث الصورة الشخصية");
+    };
+    reader.readAsDataURL(file);
+}
+
+// =====================
+// إدارة المحاضرات والجلسات الحية التلقائية
+// =====================
+// =====================
+// إدارة المحاضرات والجلسات الحية التلقائية (نسخة الطالب المفلترة والآمنة)
+// =====================
+function loadSessionsTimeline() {
+    // التأكد أولاً من أن معرف الطالب الحالي موجود ومشحون
+    if (!currentUserId) {
+        console.error("خطأ: لم يتم التعرف على معرف الطالب الحالي الحالي currentUserId");
+        return;
+    }
+
+    // إضافة شرط التصفية .where() ليجلب فقط الجلسات الخاصة بالطالب أو الجلسات العامة للجميع
+    db.collection('sessions')
+        .where('target_user', 'in', [currentUserId, 'all']) 
+        .orderBy('session_time', 'asc')
+        .onSnapshot((snapshot) => {
+            activeSessionsData = [];
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                let sessionDate = (data.session_time && data.session_time.toDate) ? data.session_time.toDate() : new Date(data.session_time);
+                activeSessionsData.push({
+                    id: doc.id,
+                    ...data,
+                    parsedDate: sessionDate
+                });
+            });
+            renderSessionsUI();
+        }, (error) => {
+            console.error("خطأ في جلب الجلسات المخصصة: ", error);
+        });
+}
+
+function renderSessionsUI() {
+    const timelineContainer = document.getElementById('timelineContainer');
+    const allSessionsGrid = document.getElementById('allSessionsGrid');
+
+    if(!timelineContainer || !allSessionsGrid) return;
+
+    timelineContainer.innerHTML = "";
+    allSessionsGrid.innerHTML = "";
+
+    if(activeSessionsData.length === 0) {
+        timelineContainer.innerHTML = `<p class="text-xs text-gray-400 text-center py-4">لا توجد جلسات مجدولة متاح عرضها حالياً</p>`;
+        allSessionsGrid.innerHTML = `<p class="col-span-full text-xs text-gray-400 text-center py-4">لا توجد غرف بث متاحة اليوم</p>`;
+        return;
+    }
+
+    activeSessionsData.forEach(session => {
+        const now = new Date();
+        const sessionTitle = session.title || "جلسة مباشرة";
+        const zoomLink = session.zoom_url || "#";
+        const sessionDate = session.parsedDate;
+        let sessionEndDate;
+
+        if (session.end_time?.toDate) {
+            sessionEndDate = session.end_time.toDate();
+        } else if (session.end_time) {
+            sessionEndDate = new Date(session.end_time);
+        } else {
+            sessionEndDate = new Date(sessionDate.getTime() + (2 * 60 * 60 * 1000));
+        }
+
+        const formattedTime = sessionDate.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit', hour12: true });
+        const formattedDate = sessionDate.toLocaleDateString('ar-EG', { month: 'long', day: 'numeric' });
+
+        const isTimeNow = now >= sessionDate && now < sessionEndDate;
+        const isFinished = now >= sessionEndDate;
+
+        let actionButtonHTML = "";
+        let statusBadgeHTML = "";
+
+        if (isTimeNow) {
+            actionButtonHTML = `
+            <a href="${zoomLink}" target="_blank" class="bg-emerald-600 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-md block text-center animate-pulse">
+                انضم الآن للمباشر
+            </a>`;
+        } else if (isFinished) {
+            actionButtonHTML = "";
+            statusBadgeHTML = `<span class="text-[10px] bg-gray-100 text-gray-400 px-2 py-0.5 rounded-md mr-2 font-normal">منتهية</span>`;
+        } else {
+            const diffMs = sessionDate - now;
+            const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+
+            let countdownParts = [];
+            if (days > 0) countdownParts.push(`${days} يوم`);
+            if (hours > 0 || days > 0) countdownParts.push(`${hours} ساعة`);
+            countdownParts.push(`${minutes} دقيقة`);
+
+            actionButtonHTML = `<span class="text-xs text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg block text-center font-semibold">تبدأ خلال ${countdownParts.join(" و ")}</span>`;
+        }
+
+        const buttonWrapper = actionButtonHTML ? `<div>${actionButtonHTML}</div>` : '';
+
+        timelineContainer.innerHTML += `
+        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-100 shadow-sm ${isFinished ? 'opacity-70' : ''}">
+            <div>
+                <h4 class="font-bold text-sm text-gray-800 flex items-center">${sessionTitle} ${statusBadgeHTML}</h4>
+                <p class="text-[11px] text-gray-400 mt-1"><i class="fa-regular fa-clock ml-1"></i> ${formattedDate} الساعة ${formattedTime}</p>
+            </div>
+            ${buttonWrapper}
+        </div>`;
+
+        allSessionsGrid.innerHTML += `
+        <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between gap-4 hover:border-blue-100 transition-all ${isFinished ? 'opacity-70' : ''}">
+            <div>
+                <h3 class="font-bold text-base text-gray-800 mb-2 flex items-center justify-between">${sessionTitle} ${statusBadgeHTML}</h3>
+                <p class="text-xs text-gray-500 mb-4"><i class="fa-regular fa-calendar ml-1"></i> ${formattedDate} - ${formattedTime}</p>
+            </div>
+            ${buttonWrapper}
+        </div>`;
+    });
+}
+
+setInterval(() => { renderSessionsUI(); }, 60000);
+
+// =====================
+// محادثة المشرف المتقدمة (دعم الميديا والترتيب الزمني الصحيح المتوافق)
+// =====================
+let communityListener = null;
+async function loadCommunityChat() {
+    if(communityListener) return;
+    if (!currentUserData.name) { await fetchUserProfile(); }
+
+    const container = document.getElementById('globalChatContainer');
+    if (!container) return;
+
+    communityListener = db.collection('community_chat')
+        .where('studentId', '==', currentUserId)
+        .orderBy('time', 'asc')
+        .onSnapshot((snapshot) => {
+            container.innerHTML = "";
+            if (snapshot.empty) {
+                container.innerHTML = `<p class="text-center text-xs text-gray-400 p-4">لا توجد رسائل سابقة، ابدأ الآن بمراسلة المشرف المباشر...</p>`;
+                return;
+            }
+
+            snapshot.forEach(doc => {
+                const msg = doc.data();
+                // التوافقية: التحقق من كود الـ admin بالـ sender المعتمد في اللوحتين
+                const isMe = msg.senderId === currentUserId && msg.sender !== 'admin';
+                
+                let senderLabel = msg.senderName;
+                let isSystemAdmin = msg.sender === 'admin' || msg.senderId === 'admin' || msg.isAdmin === true;
+
+                if (isSystemAdmin) {
+                    senderLabel = "💡 مشرف المنصة";
+                }
+
+                let messageContentHTML = `<p class="leading-relaxed break-words text-sm">${msg.text || ""}</p>`;
+                const trimmedText = msg.text ? msg.text.trim() : "";
+
+                // معالجة ذكية للروابط المباشرة والمصادر المرفوعة من الأدمن داخل الشات
+                if (trimmedText.startsWith('http://') || trimmedText.startsWith('https://')) {
+                    const lowerText = trimmedText.toLowerCase();
+                    if (lowerText.match(/\.(jpeg|jpg|gif|png|webp)/) != null) {
+                        messageContentHTML = `<img src="${trimmedText}" class="max-w-full h-auto rounded-xl shadow-sm mt-1 cursor-pointer hover:opacity-90 transition-all" onclick="window.open('${trimmedText}', '_blank')">`;
+                    } else if (lowerText.match(/\.(mp4|webm|ogg)/) != null) {
+                        messageContentHTML = `<video src="${trimmedText}" controls class="w-full max-w-xs rounded-xl bg-black mt-1 shadow-sm"></video>`;
+                    } else if (lowerText.includes('.pdf') || lowerText.includes('firebasestorage.googleapis.com')) {
+                        messageContentHTML = `
+                        <div class="flex flex-col gap-2 p-2 bg-black/5 rounded-xl border border-black/10 mt-1 text-right">
+                            <span class="text-xs font-semibold flex items-center gap-1"><i class="fa-solid fa-file-arrow-down text-lg"></i> مستند/مرفق تعليمي جديد</span>
+                            <a href="${trimmedText}" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-center py-1.5 px-3 rounded-lg text-[11px] block transition-all shadow-sm">تصفح أو تحميل الملف</a>
+                        </div>`;
+                    }
+                }
+
+                container.innerHTML += `
+                <div class="flex ${isMe ? 'justify-end' : 'justify-start'} mb-3 w-full">
+                    <div class="max-w-[75%] p-3.5 rounded-2xl shadow-sm border border-gray-100 ${
+                        isMe 
+                        ? 'bg-[#0d48a1] text-white rounded-tl-none ml-12' 
+                        : 'bg-slate-100 text-gray-800 rounded-tr-none mr-12'
+                    }">
+                        <span class="block font-bold text-[10px] mb-1.5 opacity-80 ${isMe ? 'text-blue-200' : 'text-amber-600'}">${senderLabel}</span>
+                        ${messageContentHTML}
+                    </div>
+                </div>`;
+            });
+            container.scrollTop = container.scrollHeight;
+        }, (error) => {
+            console.error("خطأ في جلب شات المشرف: ", error);
+        });
+}
+
+document.getElementById('globalChatForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const input = document.getElementById('globalMessageInput');
+    const text = input.value.trim();
+    if(!text) return;
+    input.value = "";
+
+    await db.collection('community_chat').add({
+        studentId: currentUserId,
+        senderId: currentUserId,
+        senderName: currentUserData.name || "طالب المنصة",
+        sender: 'user', // حقل مضاف للتوافقية الكاملة مع الإدارة
+        text: text,
+        time: firebase.firestore.FieldValue.serverTimestamp()
+    });
+});
+
+// =====================
+// قسم المصادر التعليمية المخصصة لكل مستخدم بشكل آمن
+// =====================
+function loadResourcesDocs() {
+    const grid = document.getElementById('resourcesGrid');
+    if (!grid) return;
+
+    db.collection('admin_resources')
+        .where('target_user', 'in', [currentUserId, 'all'])
+        .onSnapshot((snapshot) => {
+            grid.innerHTML = "";
+            if(snapshot.empty) {
+                grid.innerHTML = `<p class="col-span-full text-center text-xs text-gray-400 p-8">لا توجد ملفات أو مصادر مخصصة لك حالياً من الإدارة</p>`;
+                return;
+            }
+
+            let resourcesList = [];
+            snapshot.forEach(doc => { resourcesList.push({ id: doc.id, ...doc.data() }); });
+            resourcesList.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
+
+            resourcesList.forEach(item => {
+                let previewElement = "";
+                if(item.type === 'image') {
+                    previewElement = `<img src="${item.url}" class="w-full h-40 object-cover rounded-xl mb-3 shadow-inner">`;
+                } else if(item.type === 'video') {
+                    previewElement = `
+                    <div class="w-full h-40 bg-slate-900 rounded-xl mb-3 flex flex-col items-center justify-center text-white gap-2">
+                        <i class="fa-solid fa-circle-play text-3xl text-amber-500"></i>
+                        <span class="text-xs font-semibold">ملف فيديو متاح للتشغيل</span>
+                    </div>`;
+                } else {
+                    previewElement = `
+                    <div class="w-full h-40 bg-red-50 rounded-xl mb-3 flex flex-col items-center justify-center text-red-600 gap-2 border border-red-100">
+                        <i class="fa-solid fa-file-pdf text-4xl"></i>
+                        <span class="text-xs font-bold">مذكرة PDF جاهزة للقراءة</span>
+                    </div>`;
+                }
+
+                grid.innerHTML += `
+                <div class="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+                    <div>
+                        ${previewElement}
+                        <h3 class="font-bold text-sm text-gray-800 mb-3 truncate">${item.title || 'ملف تعليمي'}</h3>
+                    </div>
+                    <button onclick="openResourceModal('${btoa(encodeURIComponent(item.title || 'ملف'))}','${item.url}','${item.type}')"
+                            class="w-full bg-[#0d48a1] hover:bg-[#0b3c8f] text-white py-2.5 rounded-xl text-xs font-bold transition-all shadow-sm flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-eye"></i> فتح واستعراض الملف
+                    </button>
+                </div>`;
+            });
+        }, (error) => {
+            console.error("خطأ في جلب المصادر والمرفقات: ", error);
+        });
+}
+
+// =====================
+// النوافذ المنبثقة الذكية وعرض المصادر والمستندات
+// =====================
+function openResourceModal(encodedTitle, url, type) {
+    const title = decodeURIComponent(atob(encodedTitle));
+    document.getElementById('modalTitle').innerText = title;
+
+    const modalBody = document.getElementById('modalBody');
+    modalBody.innerHTML = `<p class="text-xs text-gray-500 animate-pulse">جاري تهيئة العارض المتقدم...</p>`;
+
+    currentTargetDownloadUrl = url;
+    currentTargetDownloadName = title;
+    currentTargetType = type;
+
+    document.getElementById('downloadBtnText').innerText = "تحميل الملف للجهاز";
+
+    if(type === 'image') {
+        modalBody.innerHTML = `<img src="${url}" class="max-w-full max-h-[60vh] object-contain rounded-xl shadow-md">`;
+    } else if(type === 'video') {
+        modalBody.innerHTML = `<video src="${url}" controls autoplay class="w-full max-h-[60vh] rounded-xl bg-black shadow-lg">متصفحك لا يدعم تشغيل الفيديو</video>`;
+    } else if(type === 'pdf') {
+        const googlePdfViewerUrl = `https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true`;
+        modalBody.innerHTML = `<iframe src="${googlePdfViewerUrl}" class="w-full h-[65vh] rounded-xl border-0 shadow-inner bg-white"></iframe>`;
+    } else {
+        modalBody.innerHTML = `<iframe src="${url}" class="w-full h-[65vh] rounded-xl border-0 bg-white"></iframe>`;
+    }
+
+    document.getElementById('resourceModal').classList.remove('hidden');
+}
+
+function closeResourceModal() {
+    document.getElementById('modalBody').innerHTML = "";
+    document.getElementById('resourceModal').classList.add('hidden');
+}
+
+async function triggerDirectDownload() {
+    const btnText = document.getElementById('downloadBtnText');
+    const originalText = btnText.innerText;
+
+    try {
+        btnText.innerText = "جاري جلب الملف...";
+        const response = await fetch(currentTargetDownloadUrl);
+        if (!response.ok) throw new Error();
+
+        const blob = await response.blob();
+        const blobUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        
+        let fileName = currentTargetDownloadName;
+        if (!fileName.includes('.')) {
+            if (currentTargetType === 'pdf') fileName += '.pdf';
+            if (currentTargetType === 'video') fileName += '.mp4';
+            if (currentTargetType === 'image') fileName += '.jpg';
+        }
+
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(blobUrl);
+        btnText.innerText = "✓ تم التحميل!";
+        setTimeout(() => { btnText.innerText = originalText; }, 2000);
+    } catch(err) {
+        window.open(currentTargetDownloadUrl, '_blank');
+        btnText.innerText = originalText;
+    }
+}
+
+// =====================
+// نظام التذاكر والدعم الفني
+// =====================
+let currentTicketId = null;
+let supportListener = null;
+
+async function loadSupportChat() {
+    if (!currentUserData.email) { await fetchUserProfile(); }
+    if(!currentUserData.email) return;
+    if(supportListener) return;
+
+    const ticketQuery = await db.collection('support_requests').where('user_email', '==', currentUserData.email).get();
+
+    if(ticketQuery.empty) {
+        const newTicket = await db.collection('support_requests').add({
+            user_email: currentUserData.email,
+            user_name: currentUserData.name || "عضو المنصة",
+            status: "open",
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        currentTicketId = newTicket.id;
+    } else {
+        currentTicketId = ticketQuery.docs[0].id;
+    }
+
+    supportListener = db.collection('support_requests').doc(currentTicketId).collection('chats').orderBy('time', 'asc').onSnapshot((snap) => {
+        const container = document.getElementById('supportChatContainer');
+        container.innerHTML = "";
+
+        snap.forEach(doc => {
+            const msg = doc.data();
+            const isAdmin = msg.sender === 'admin';
+
+            container.innerHTML += `
+            <div class="flex ${isAdmin ? 'justify-start' : 'justify-end'} mb-2">
+                <div class="max-w-[75%] p-3 rounded-xl text-xs ${isAdmin ? 'bg-amber-500 text-white rounded-tr-none' : 'bg-white border rounded-tl-none'} shadow-sm">
+                    <p class="leading-relaxed break-words">${msg.text}</p>
+                </div>
+            </div>`;
+        });
+        container.scrollTop = container.scrollHeight;
+    });
+}
+
+document.getElementById('supportChatForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const input = document.getElementById('supportMessageInput');
+    const text = input.value.trim();
+    if(!text || !currentTicketId) return;
+    input.value = "";
+
+    await db.collection('support_requests').doc(currentTicketId).collection('chats').add({
+        sender: 'user',
+        text: text,
+        time: firebase.firestore.FieldValue.serverTimestamp()
+    });
+});
+
+// =====================
+// نظام تسجيل الخروج الآمن
+// =====================
+function logout() {
+    if(confirm("هل أنت متأكد أنك تريد تسجيل الخروج من حسابك؟")) {
+        localStorage.removeItem('omar_media_user_id');
+        window.location.href = "login.html";
+    }
+}
+    </script>
+</body>
+</html>

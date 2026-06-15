@@ -1,0 +1,1801 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>منصة التوفيق</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+:root{
+    --primary:#00aaff;
+    --gold:#d4af37;
+
+    --bg:#ffffff;
+    --text:#111827;
+
+    --glass:rgba(255,255,255,.12);
+    --glass-border:rgba(255,255,255,.2);
+}
+
+body.dark-mode{
+    --bg:#0f172a;
+    --text:#ffffff;
+    --glass:rgba(15,23,42,.65);
+    --glass-border:rgba(255,255,255,.1);
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Cairo',sans-serif;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    transition:.4s;
+}
+
+/* HEADER */
+
+header{
+    position: relative;
+    top:0;
+    z-index:9999;
+
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+
+    background:var(--glass);
+    border-bottom:1px solid var(--glass-border);
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:15px 5%;
+}
+
+/* LOGO */
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    text-decoration:none;
+    color:var(--text);
+    font-size:1.2rem;
+    font-weight:800;
+}
+
+.logo img{
+    height:42px;
+}
+
+/* NAV */
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.nav-links a{
+    color:var(--text);
+    text-decoration:none;
+    padding:10px 18px;
+    border-radius:50px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.nav-links a:hover{
+    background:rgba(0,170,255,.15);
+    color:var(--primary);
+}
+
+/* ACTIONS */
+
+.actions{
+    display:flex;
+    gap:10px;
+}
+
+.action-btn{
+    width:42px;
+    height:42px;
+
+    border:none;
+    border-radius:50%;
+    cursor:pointer;
+
+    background:rgba(255,255,255,.1);
+
+    color:var(--text);
+    font-size:1rem;
+
+    transition:.3s;
+}
+
+.action-btn:hover{
+    transform:translateY(-2px);
+}
+
+/* MENU BUTTON */
+
+.menu-btn{
+    display:none;
+
+    width:45px;
+    height:45px;
+
+    border:none;
+    cursor:pointer;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,.1);
+
+    color:var(--text);
+    font-size:1.2rem;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+    .menu-btn{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }
+
+    .nav-links{
+        position:absolute;
+        top:80px;
+        right:15px;
+
+        width:280px;
+
+        background:var(--glass);
+
+        backdrop-filter:blur(20px);
+
+        border:1px solid var(--glass-border);
+
+        border-radius:20px;
+
+        flex-direction:column;
+
+        padding:15px;
+
+        opacity:0;
+        visibility:hidden;
+
+        transform:translateY(-15px);
+
+        transition:.35s ease;
+    }
+
+    .nav-links.active{
+        opacity:1;
+        visibility:visible;
+        transform:translateY(0);
+    }
+
+    .nav-links a{
+        width:100%;
+        text-align:center;
+    }
+
+    .desktop-actions{
+        display:none;
+    }
+}
+
+/* DESKTOP */
+
+@media(min-width:901px){
+    .mobile-only{
+        display:none;
+    }
+}
+
+.hero-slider{
+    position:relative;
+    width:100%;
+    height:520px;
+    overflow: hidden;
+    border-radius:25px;
+    margin-top:20px;
+}
+
+.slide{
+    position:absolute;
+    width:100%;
+    height:100%;
+    opacity:0;
+    visibility:hidden;
+    transition:1s ease;
+}
+
+.slide.active{
+    opacity:1;
+    visibility:visible;
+}
+
+.slide img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transform:scale(1.08);
+    transition:6s;
+}
+
+.slide.active img{
+    transform:scale(1);
+}
+
+.slide::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(
+        rgba(0,0,0,.2),
+        rgba(0,0,0,.6)
+    );
+}
+
+.slide-content{
+    position:absolute;
+    z-index:2;
+    top:50%;
+    right:8%;
+    transform:translateY(-50%);
+    color:white;
+    max-width:500px;
+}
+
+.slide-content h1{
+    font-size:3rem;
+    margin-bottom:15px;
+}
+
+.slide-content p{
+    font-size:1.3rem;
+}
+
+.slider-btn{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    width:55px;
+    height:55px;
+    border:none;
+    border-radius:50%;
+    cursor:pointer;
+    z-index:10;
+
+    backdrop-filter:blur(15px);
+
+    background:rgba(255,255,255,.15);
+    color:white;
+    font-size:20px;
+}
+
+.prev{
+    right:20px;
+}
+
+.next{
+    left:20px;
+}
+
+.slider-btn:hover{
+    transform:translateY(-50%) scale(1.1);
+}
+
+@media(max-width:768px){
+
+   .hero-slider{
+    position:relative;
+    width:100%;
+    height:500px;
+    overflow:hidden;
+    border-radius:20px;
+}
+
+.slide{
+    position:absolute;
+    width:100%;
+    height:100%;
+    opacity:0;
+    transition:opacity 0.8s ease;
+}
+
+.slide.active{
+    opacity:1;
+}
+
+.slide img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.slide-content{
+    position:absolute;
+    bottom:50px;
+    right:50px;
+    color:white;
+    z-index:2;
+    text-shadow:0 2px 10px rgba(0,0,0,.7);
+}
+
+.slide-content h1{
+    font-size:3rem;
+}
+
+.slide-content p{
+    font-size:1.2rem;
+}
+
+.slider-btn{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    width:50px;
+    height:50px;
+    border:none;
+    border-radius:50%;
+    cursor:pointer;
+    background:rgba(255,255,255,.25);
+    color:white;
+    font-size:24px;
+    z-index:10;
+}
+
+.prev{
+    right:20px;
+}
+
+.next{
+    left:20px;
+}
+}
+.stats-section{
+    max-width:1200px;
+    margin:30px auto;
+    padding:0 15px;
+
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+}
+
+.stat-card{
+    background:#fff;
+    border-radius:20px;
+    padding:20px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+
+    transition:.3s;
+}
+
+.stat-card:hover{
+    transform:translateY(-5px);
+}
+
+.stat-card h2{
+    color:#00aaff;
+    font-size:28px;
+    font-weight:800;
+}
+
+.stat-card p{
+    margin-top:5px;
+    color:#666;
+}
+
+.stat-card img{
+    width:60px;
+    height:60px;
+    object-fit:contain;
+}
+
+@media(max-width:992px){
+    .stats-section{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:600px){
+    .stats-section{
+        grid-template-columns:1fr;
+    }
+}
+.reviews-section {
+    padding: 50px 0;
+    overflow: hidden; /* ضروري لإخفاء الكروت الزائدة خارج الإطار */
+    width: 100%;
+}
+
+.reviews-section h2{
+    text-align:center;
+    margin-bottom:25px;
+    color:#00aaff;
+}
+
+.reviews-slider{
+    display:flex;
+    gap:20px;
+    width:max-content;
+    padding:10px;
+
+    animation:scrollReviews 35s linear infinite reverse;
+}
+
+
+.review-card{
+    flex:0 0 300px;
+
+    background:#fff;
+    padding:20px;
+
+    border-radius:20px;
+
+    box-shadow:0 5px 20px rgba(0,0,0,.1);
+
+    transition:.3s;
+}
+
+.review-card:hover{
+    transform:translateY(-5px);
+}
+
+.review-card h3{
+    margin-bottom:10px;
+}
+
+.stars{
+    color:#f4b400;
+    margin-bottom:10px;
+}
+
+
+@keyframes scrollReviews {
+
+    0%{
+        transform:translateX(-50%);
+    }
+
+    100%{
+        transform:translateX(0);
+    }
+
+}
+
+.reviews-slider:hover{
+    animation-play-state:paused;
+}
+
+@media(max-width:768px){
+
+    .review-card{
+        flex:0 0 260px;
+    }
+
+    .reviews-slider{
+        gap:15px;
+        animation-duration:25s;
+    }
+
+}
+
+/* زر واتساب */
+
+.join-client{
+    text-align:center;
+    margin-top:40px;
+    margin-bottom:30px;
+}
+
+.join-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+
+    padding:15px 35px;
+
+    background:#25D366;
+    color:white;
+
+    text-decoration:none;
+
+    border-radius:50px;
+
+    font-size:18px;
+    font-weight:700;
+
+    box-shadow:0 8px 25px rgba(37,211,102,.35);
+
+    transition:.3s;
+}
+
+.join-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 12px 30px rgba(37,211,102,.5);
+}
+
+.join-btn i{
+    font-size:22px;
+}
+
+.special-request{
+    padding:60px 20px;
+}
+
+.special-box{
+    max-width:900px;
+    margin:auto;
+
+    text-align:center;
+
+    padding:50px 30px;
+
+    border-radius:25px;
+
+    background:linear-gradient(
+        135deg,
+        #00aaff,
+        #0066ff
+    );
+
+    color:white;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.15);
+}
+
+.special-box h2{
+    font-size:2rem;
+    margin-bottom:15px;
+    font-weight:800;
+}
+
+.special-box p{
+    font-size:1.1rem;
+    line-height:1.8;
+    margin-bottom:30px;
+}
+
+.special-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+
+    background:white;
+    color:#0066ff;
+
+    text-decoration:none;
+
+    padding:15px 35px;
+
+    border-radius:50px;
+
+    font-weight:700;
+    font-size:18px;
+
+    transition:.3s;
+}
+
+.special-btn:hover{
+    transform:translateY(-4px);
+}
+
+.special-btn i{
+    font-size:22px;
+}
+
+@media(max-width:768px){
+
+    .special-box{
+        padding:35px 20px;
+    }
+
+    .special-box h2{
+        font-size:1.6rem;
+    }
+
+    .special-box p{
+        font-size:1rem;
+    }
+
+}
+.faq-section{
+    max-width:900px;
+    margin:60px auto;
+    padding:0 20px;
+}
+
+.faq-section h2{
+    text-align:center;
+    color:#00aaff;
+    margin-bottom:30px;
+    font-size:2rem;
+}
+
+.faq-item{
+    background:#fff;
+    border-radius:18px;
+    margin-bottom:15px;
+    overflow:hidden;
+
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.faq-question{
+    width:100%;
+
+    border:none;
+    background:none;
+
+    padding:20px;
+
+    font-size:18px;
+    font-weight:700;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    cursor:pointer;
+}
+
+.faq-question span{
+    font-size:24px;
+    color:#00aaff;
+}
+
+.faq-answer{
+    max-height:0;
+    overflow:hidden;
+
+    transition:max-height .4s ease;
+}
+
+.faq-answer p{
+    padding:0 20px 20px;
+    line-height:1.8;
+    color:#555;
+}
+
+.faq-item.active .faq-answer{
+    max-height:200px;
+}
+
+.faq-item.active .faq-question span{
+    transform:rotate(45deg);
+}
+.footer{
+    background:linear-gradient(
+        180deg,
+        #07162f,
+        #041022
+    );
+
+    color:white;
+
+    margin-top:80px;
+}
+
+.footer-container{
+    max-width:1300px;
+    margin:auto;
+
+    padding:60px 20px;
+
+    display:grid;
+    grid-template-columns:
+    repeat(auto-fit,minmax(250px,1fr));
+
+    gap:40px;
+}
+
+.footer-box h3{
+    margin-bottom:20px;
+
+    color:#00aaff;
+
+    position:relative;
+}
+
+.footer-box h3::after{
+    content:"";
+    position:absolute;
+
+    bottom:-8px;
+    right:0;
+
+    width:70px;
+    height:3px;
+
+    background:#00aaff;
+}
+
+.footer-logo{
+    width:80px;
+    margin-bottom:15px;
+}
+
+.footer-box p{
+    color:#c8d0dc;
+    line-height:1.8;
+}
+
+.footer-box ul{
+    list-style:none;
+}
+
+.footer-box ul li{
+    margin:15px 0;
+}
+
+.footer-box ul li a{
+    color:#c8d0dc;
+    text-decoration:none;
+}
+
+.footer-box ul li a:hover{
+    color:#00aaff;
+}
+
+.social-links{
+    margin-top:20px;
+
+    display:flex;
+    gap:10px;
+}
+
+.social-links a{
+    width:42px;
+    height:42px;
+
+    border-radius:50%;
+
+    background:#00aaff;
+
+    color:white;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    text-decoration:none;
+}
+
+.social-links a:hover{
+    transform:translateY(-4px);
+}
+
+.qr-image{
+    width:180px;
+    margin-top:15px;
+    background:white;
+    padding:10px;
+}
+
+.footer-bottom{
+    border-top:1px solid rgba(255,255,255,.1);
+
+    text-align:center;
+
+    padding:20px;
+
+    color:#c8d0dc;
+}
+/* ====== GENERAL ====== */
+
+
+.pricing-section {
+  padding: 60px 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* ====== PLANS GRID ====== */
+.plans {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+/* ====== PLAN CARD ====== */
+.plan {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  padding: 25px;
+  backdrop-filter: blur(10px);
+  transition: 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.plan:hover {
+  transform: translateY(-8px);
+  border-color: #38bdf8;
+  box-shadow: 0 15px 40px rgba(56, 189, 248, 0.15);
+}
+
+.plan h2 {
+  margin-bottom: 10px;
+  color: #38bdf8;
+}
+
+.plan p {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.plan ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.plan ul li {
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 14px;
+}
+
+/* ====== BUTTONS ====== */
+.pay-btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.pay-btn:hover {
+  transform: scale(1.03);
+}
+
+.vodafone {
+  background: linear-gradient(135deg, #e60012, #ff4d4d);
+  color: #fff;
+}
+
+.insta {
+  background: linear-gradient(135deg, #ff8a00, #e52e71);
+  color: #fff;
+}
+
+/* ====== POPUP BACKGROUND ====== */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* ====== POPUP BOX ====== */
+.popup-box {
+  background: #111827;
+  padding: 25px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  animation: popupShow 0.3s ease forwards;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.popup-box h3 {
+  margin-bottom: 15px;
+  color: #38bdf8;
+}
+
+.popup-box p {
+  font-size: 18px;
+  margin-bottom: 15px;
+  background: rgba(255,255,255,0.05);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+/* ====== POPUP BUTTONS ====== */
+.popup-box button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.popup-box button:hover {
+  transform: scale(1.03);
+}
+
+/* ====== CHECKBOX ====== */
+.popup-box label {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  margin: 15px 0;
+}
+
+/* ====== ANIMATION ====== */
+@keyframes popupShow {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 992px) {
+  .plans {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .plans {
+    grid-template-columns: 1fr;
+  }
+
+  .pricing-section {
+    padding: 30px 15px;
+  }
+}
+.contact-box p {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  transition: 0.3s;
+}
+
+.contact-box p:hover {
+  background: rgba(56,189,248,0.08);
+  transform: translateY(-2px);
+}
+
+.online {
+  color: #cbd5e1;
+  text-decoration: none;
+  font-weight: 500;
+  flex: 1;
+}
+
+.copy-btn {
+  background: #38bdf8;
+  color: #0b1220;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.copy-btn:hover {
+  background: #0ea5e9;
+  transform: scale(1.05);
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <a href="https://altawfik.online" class="logo">
+        <img src="https://altawfik.online/altawfiq.png">
+        <span>منصة التوفيق</span>
+    </a>
+
+    <nav class="nav-links" id="navMenu">
+
+     <a href="#"><i class="fa-solid fa-house"></i> الرئيسية</a>
+        <a href="#"><i class="fa-solid fa-info-circle"></i> من نحن</a>
+        <a href="#"><i class="fa-solid fa-credit-card"></i> طرق الدفع</a>
+        <a href="#"><i class="fa-solid fa-headset"></i> تواصل معنا</a>
+        <a href="#"><i class="fa-solid fa-user"></i> تسجيل الدخول</a>
+
+        <div class="actions mobile-only">
+
+            <button class="action-btn" onclick="toggleTheme()">
+                <i class="fas fa-moon"></i>
+            </button>
+
+            <button class="action-btn" onclick="toggleLang()">
+                EN | AR
+            </button>
+
+        </div>
+
+    </nav>
+
+    <div class="actions desktop-actions">
+
+        <button class="action-btn" onclick="toggleTheme()">
+            <i class="fas fa-moon"></i>
+        </button>
+
+        <button class="action-btn" onclick="toggleLang()">
+            EN
+        </button>
+
+    </div>
+
+    <button class="menu-btn" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+</header>
+<section class="hero-slider">
+
+    <div class="slide active">
+        <img src="picture1.png">
+    </div>
+
+    <div class="slide">
+        <img src="picture2.png">
+    </div>
+
+    <div class="slide">
+        <img src="picture3.png">
+    </div>
+
+    <div class="slide">
+        <img src="picture4.png">
+    </div>
+
+    <button class="slider-btn prev">❯</button>
+    <button class="slider-btn next">❮</button>
+
+</section>
+<section class="stats-section">
+
+    <div class="stat-card">
+        <div>
+            <h2>+2500</h2>
+            <p>طالب مسجل</p>
+        </div>
+        <img src="https://feds-moamen-el-naqip.b-cdn.net//StorageFiles/220d6df5-7fda-46c5-8b63-08de56da77a5/05831df0-df13-4c32-a1f4-c93f608036a1.gif">
+    </div>
+
+    <div class="stat-card">
+        <div>
+            <h2>+50</h2>
+            <p>كورس أونلاين</p>
+        </div>
+        <img src="https://feds-moamen-el-naqip.b-cdn.net//StorageFiles/220d6df5-7fda-46c5-8b63-08de56da77a5/1a273a87-2976-4601-9c2b-36d18c3a0496.gif">
+    </div>
+
+    <div class="stat-card">
+        <div>
+            <h2>+0</h2>
+            <p>امتحان على المنصة</p>
+        </div>
+        <img src="https://feds-moamen-el-naqip.b-cdn.net//StorageFiles/220d6df5-7fda-46c5-8b63-08de56da77a5/26ecd8b7-9f61-445c-89b7-eb46ebbee5c8.gif">
+    </div>
+
+    <div class="stat-card">
+        <div>
+            <h2>24/7</h2>
+            <p>دعم الطلاب</p>
+        </div>
+        <img src="https://feds-moamen-el-naqip.b-cdn.net//StorageFiles/220d6df5-7fda-46c5-8b63-08de56da77a5/f4ffeafa-c410-4126-89ea-4a6e09fdfcde.png">
+    </div>
+
+</section>
+
+<section class="pricing-section">
+
+  <!-- الباقات -->
+  <div class="plans">
+
+    <div class="plan">
+      <h2>الباقة الأساسية</h2>
+      <p>40$ / شهرياً</p>
+      <ul>
+        <li>8 حصص شهرياً (حصتين أسبوعياً)</li>
+        <li>تعليم مبادئ القراءة العربية</li>
+        <li>حفظ قصار السور من القرآن</li>
+        <li>متابعة وتقييم أسبوعي</li>
+      </ul>
+
+      <button onclick="showVodafoneCash()" class="pay-btn vodafone">
+        تحويل فودافون كاش
+      </button>
+
+      <button onclick="showInstapay()" class="pay-btn insta">
+        تحويل إنستا باي
+      </button>
+    </div>
+
+    <div class="plan">
+      <h2>الباقة المتقدمة</h2>
+      <p>60$ / شهرياً</p>
+      <ul>
+        <li>12 حصة شهرياً (3 حصص أسبوعياً)</li>
+        <li>تعليم أحكام التجويد بشكل مفصل</li>
+        <li>تقارير أداء شهرية لولي الأمر</li>
+        <li>دعم وإجابة استفسارات على مدار الساعة</li>
+      </ul>
+
+      <button onclick="showVodafoneCash()" class="pay-btn vodafone">
+        تحويل فودافون كاش
+      </button>
+
+      <button onclick="showInstapay()" class="pay-btn insta">
+        تحويل إنستا باي
+      </button>
+    </div>
+
+    <div class="plan">
+      <h2>الباقة المكثفة</h2>
+      <p>80$ / شهرياً</p>
+      <ul>
+        <li>16 حصة شهرياً (4 حصص أسبوعياً)</li>
+        <li>مسار خاص لحفظ القرآن كاملاً</li>
+        <li>حصص فردية خاصة (1 لـ 1)</li>
+        <li>شهادة إتمام وتفوق معتمدة من المنصة</li>
+      </ul>
+
+      <button onclick="showVodafoneCash()" class="pay-btn vodafone">
+        تحويل فودافون كاش
+      </button>
+
+      <button onclick="showInstapay()" class="pay-btn insta">
+        تحويل إنستا باي
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Vodafone Popup -->
+  <div id="vodafonePopup" class="popup">
+    <div class="popup-box">
+      <h3>تحويل فودافون كاش</h3>
+      <p id="cashNumber">01025146333</p>
+
+      <button onclick="copyCashNumber()">نسخ الرقم</button>
+      <button onclick="closePopup()">إغلاق</button>
+    </div>
+  </div>
+
+  <!-- InstaPay Popup -->
+  <div id="instaPopup" class="popup">
+    <div class="popup-box">
+      <h3>تحويل إنستا باي</h3>
+      <p id="instaNumber">01025146333</p>
+
+      <button onclick="copyInstaNumber()">نسخ الرقم</button>
+      <button onclick="verifyHuman()">متابعة الاشتراك</button>
+            <button onclick="closePopup()">إغلاق</button>
+
+    </div>
+  </div>
+
+  <!-- Verify Popup -->
+  <div id="verifyPopup" class="popup">
+    <div class="popup-box">
+      <h3>تحقق من أنك إنسان</h3>
+
+      <label>
+        <input type="checkbox" id="humanCheck">
+        أنا لست روبوتاً
+      </label>
+
+      <button onclick="sendWhatsapp()">تأكيد</button>
+            <button onclick="closePopup()">إغلاق</button>
+
+    </div>
+  </div>
+
+</section>
+
+
+<section class="reviews-section">
+
+    <h2>آراء الطلاب</h2>
+
+    <div class="reviews-slider">
+
+       <div class="review-card">
+            <h3>أحمد محمد</h3>
+            <div class="stars">⭐⭐⭐⭐⭐ 4.9</div>
+            <p>منصة ممتازة وساعدتني كثيراً.</p>
+        </div>
+
+        <div class="review-card">
+            <h3>سارة علي</h3>
+            <div class="stars">⭐⭐⭐⭐⭐ 4.8</div>
+            <p>الشرح بسيط وواضح جداً.</p>
+        </div>
+
+        <div class="review-card">
+            <h3>محمد خالد</h3>
+            <div class="stars">⭐⭐⭐⭐⭐ 4.7</div>
+            <p>أفضل منصة تعليمية استخدمتها.</p>
+        </div>
+
+        <div class="review-card">
+            <h3>نور أحمد</h3>
+            <div class="stars">⭐⭐⭐⭐⭐ 4.9</div>
+            <p>الدعم سريع والمحتوى رائع.</p>
+        </div>
+
+        <div class="review-card">
+            <h3>عمر فاروق</h3>
+            <div class="stars">⭐⭐⭐⭐⭐ 4.6</div>
+            <p>تجربة تعليمية استثنائية بكل المقاييس.</p>
+        </div>
+
+        <div class="review-card">
+            <h3>مريم حسن</h3>
+            <div class="stars">⭐⭐⭐⭐⭐ 5.0</div>
+            <p>شكراً لكم، استفدت كثيراً من الدروس.</p>
+        </div>
+
+        <div class="review-card">
+            <h3>ياسين إبراهيم</h3>
+            <div class="stars">⭐⭐⭐⭐⭐ 4.8</div>
+            <p>طريقة العرض ممتازة وتسهل الفهم.</p>
+        </div>
+
+        <div class="review-card">
+            <h3>ليلى محمود</h3>
+            <div class="stars">⭐⭐⭐⭐⭐ 4.9</div>
+            <p>منصة احترافية ومنظمة جداً.</p>
+        </div>
+
+        <div class="review-card">
+            <h3>عبد الرحمن سعد</h3>
+            <div class="stars">⭐⭐⭐⭐⭐ 4.7</div>
+            <p>محتوى غني ومعلومات قيمة جداً.</p>
+        </div>
+
+        <div class="review-card">
+            <h3>هبة يوسف</h3>
+            <div class="stars">⭐⭐⭐⭐⭐ 4.8</div>
+            <p>سهولة الاستخدام هي أكثر ما أعجبني.</p>
+        </div>
+
+        <div class="review-card">
+            <h3>علي حسام</h3>
+            <div class="stars">⭐⭐⭐⭐⭐ 4.9</div>
+            <p>منصة تستحق كل تقدير واحترام.</p>
+        </div>
+
+        <div class="review-card">
+            <h3>فاطمة الزهراء</h3>
+            <div class="stars">⭐⭐⭐⭐⭐ 5.0</div>
+            <p>تطورت مهاراتي كثيراً بفضلكم.</p>
+        </div>
+
+        <div class="review-card">
+            <h3>مصطفى كمال</h3>
+            <div class="stars">⭐⭐⭐⭐⭐ 4.6</div>
+            <p>أسعار معقولة مقابل جودة تعليم عالية.</p>
+        </div>
+
+        <div class="review-card">
+            <h3>سلمى فتحي</h3>
+            <div class="stars">⭐⭐⭐⭐⭐ 4.8</div>
+            <p>محاضرات قيمة ومفيدة جداً للطلاب.</p>
+        </div>
+
+        <div class="review-card">
+            <h3>حسين عادل</h3>
+            <div class="stars">⭐⭐⭐⭐⭐ 4.7</div>
+            <p>تجربة رائعة وتواصل ممتاز من فريق العمل.</p>
+        </div>
+
+        <div class="review-card">
+            <h3>منى سعيد</h3>
+            <div class="stars">⭐⭐⭐⭐⭐ 4.9</div>
+            <p>استفدت من التمارين والتدريبات العملية.</p>
+        </div>
+
+        <div class="review-card">
+            <h3>خالد عبد الله</h3>
+            <div class="stars">⭐⭐⭐⭐⭐ 4.8</div>
+            <p>أفضل اختيار تعلمت منه اللغة العربية.</p>
+        </div>
+
+        <div class="review-card">
+            <h3>دينا إيهاب</h3>
+            <div class="stars">⭐⭐⭐⭐⭐ 4.9</div>
+            <p>فريق تدريس متميز ومحترف.</p>
+        </div>
+
+        <div class="review-card">
+            <h3>حمزة طارق</h3>
+            <div class="stars">⭐⭐⭐⭐⭐ 4.7</div>
+            <p>نقلتم التعليم لمستوى آخر، شكراً لكم.</p>
+        </div>
+
+        <div class="review-card">
+            <h3>أمل صبحي</h3>
+            <div class="stars">⭐⭐⭐⭐⭐ 4.8</div>
+            <p>محتوى متنوع وشامل لكل المستويات.</p>
+        </div>
+
+        <div class="review-card">
+            <h3>يوسف إدريس</h3>
+            <div class="stars">⭐⭐⭐⭐⭐ 4.9</div>
+            <p>منصة ملهمة ومفيدة جداً لكل باحث عن العلم.</p>
+        </div>
+
+        <div class="review-card">
+            <h3>رانيا منصور</h3>
+            <div class="stars">⭐⭐⭐⭐⭐ 5.0</div>
+            <p>سرعة في الرد وجودة في المحتوى.</p>
+        </div>
+
+        <div class="review-card">
+            <h3>محمود جابر</h3>
+            <div class="stars">⭐⭐⭐⭐⭐ 4.7</div>
+            <p>تنسيق الدروس ممتاز جداً.</p>
+        </div>
+
+        <div class="review-card">
+            <h3>هند مصطفى</h3>
+            <div class="stars">⭐⭐⭐⭐⭐ 4.8</div>
+            <p>أنصح الجميع بالتسجيل في هذه المنصة.</p>
+        </div>
+
+        <div class="review-card">
+            <h3>عمرو فكري</h3>
+            <div class="stars">⭐⭐⭐⭐⭐ 4.9</div>
+            <p>أداء رائع ومحتوى يواكب التطور.</p>
+        </div>
+
+        <div class="review-card">
+            <h3>ندى سمير</h3>
+            <div class="stars">⭐⭐⭐⭐⭐ 4.8</div>
+            <p>شكراً لكم على هذا الجهد الرائع.</p>
+        </div>
+
+        <div class="review-card">
+            <h3>سامي فؤاد</h3>
+            <div class="stars">⭐⭐⭐⭐⭐ 4.7</div>
+            <p>تجربة تعليمية لا تُنسى.</p>
+        </div>
+
+        <div class="review-card">
+            <h3>شهد ياسر</h3>
+            <div class="stars">⭐⭐⭐⭐⭐ 4.9</div>
+            <p>المنصة ساعدتني في تجاوز عقبات كبيرة.</p>
+        </div>
+
+        <div class="review-card">
+            <h3>طارق وهبة</h3>
+            <div class="stars">⭐⭐⭐⭐⭐ 4.8</div>
+            <p>منصة رائدة في مجالها.</p>
+        </div>
+
+        <div class="review-card">
+            <h3>علا نبيل</h3>
+            <div class="stars">⭐⭐⭐⭐⭐ 5.0</div>
+            <p>كل التوفيق لكم، فعلاً عمل متميز.</p>
+        </div>
+        
+    </div>
+    
+
+    <div class="join-client">
+
+    <a href="https://wa.me/201025146333?text=مرحباً، أريد أن أكون عميلاً لديكم"
+       target="_blank"
+       class="join-btn">
+
+       <i class="fab fa-whatsapp"></i>
+       أريد أن أكون عميلاً لديكم
+
+    </a>
+
+</div>
+<div>
+</section>
+<section class="special-request">
+
+    <div class="special-box">
+
+        <h2>هل لديك طلب خاص؟</h2>
+
+        <p>
+            نحن نقدم لك خدمات متكاملة في التسويق والبرمجة والدعاية والإعلان
+        </p>
+
+        <a href="https://wa.me/201025146333?text=أهلاً"
+           target="_blank"
+           class="special-btn">
+
+            <i class="fab fa-whatsapp"></i>
+            تواصل معنا
+
+        </a>
+
+    </div>
+
+</section>
+
+    <!-- كرر بنفس الشكل حتى 30 بطاقة -->
+    
+<section class="faq-section">
+
+    <h2>الأسئلة الشائعة</h2>
+
+    <div class="faq-item">
+        <button class="faq-question">
+            كيف يمكنني التسجيل في المنصة؟
+            <span>+</span>
+        </button>
+        <div class="faq-answer">
+            <p>يمكنك التسجيل بسهولة من خلال اختيار الكورس المناسب ثم  تواصل مع المنصة  ليطيك الايميل والباسورد    .</p>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <button class="faq-question">
+            ما هي طرق الدفع المتاحة؟
+            <span>+</span>
+        </button>
+        <div class="faq-answer">
+            <p>يمكن الدفع عبر فوري أو المحافظ الإلكترونية أو البطاقات البنكية.</p>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <button class="faq-question">
+            هل يمكن مشاهدة الدروس من الهاتف؟
+            <span>+</span>
+        </button>
+        <div class="faq-answer">
+            <p>نعم، المنصة متوافقة بالكامل مع الهواتف والأجهزة اللوحية.</p>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <button class="faq-question">
+            هل يوجد دعم فني؟
+            <span>+</span>
+        </button>
+        <div class="faq-answer">
+            <p>نعم، يتوفر دعم فني لمساعدة الطلاب والرد على الاستفسارات.</p>
+        </div>
+    </div>
+
+</section>
+<footer class="footer">
+
+    <div class="footer-container">
+
+        <div class="footer-box about">
+            <img src="altawfiq.png" class="footer-logo">
+
+            <h3>منصة التوفيق</h3>
+
+            <p>
+                منصة تعليمية متكاملة تقدم أفضل الكورسات
+                والاختبارات التفاعلية والمراجعات النهائية
+                للطلاب بطريقة حديثة واحترافية.
+            </p>
+
+            <div class="social-links">
+                <a href="https://www.facebook.com/share/1Bk3zprxkk/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://wa.me/201025146333" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+
+        <div class="footer-box">
+            <h3>روابط مفيدة</h3>
+
+            <ul>
+                <li><a href="">الرئيسية</a></li>
+                <li><a href="#">من نحن</a></li>
+                <li><a href="#">طرق الدفع</a></li>
+                <li><a href="#">تواصل معنا</a></li>
+            </ul>
+        </div>
+
+       <div class="contact-box">
+
+  <p>
+    📞 01025146333
+    <button onclick="copyText('phone')" class="copy-btn">نسخ</button>
+  </p>
+
+  <p>
+    📧 <a href="mailto:altawfik2026@gmail.com" class="online">info@altawfik.online</a>
+    <button onclick="copyText('email')" class="copy-btn">نسخ</button>
+  </p>
+
+  <p>
+    📍 مصر
+  </p>
+
+</div>
+
+        <div class="footer-box qr-box">
+
+            <h3>الرمز السريع</h3>
+
+            <p>امسح الكود للوصول إلى المنصة</p>
+
+            <img src="qrcode_altawfik.online.png" class="qr-image">
+
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        © 2026 منصة التوفيق - جميع الحقوق محفوظة
+        <div class="footer-bottom-links">
+            <img src="https://omarstor.online/logo2.png" style="width: 30px; height: 30px; border-radius: 50%; margin-left: 5px;">
+
+تم الانشاء والتصميم بواسطة  شركة عمر ستور
+    </div>
+
+
+
+</footer>
+
+
+
+
+
+<script>
+
+/* MENU */
+
+function toggleMenu(){
+    document
+        .getElementById("navMenu")
+        .classList.toggle("active");
+}
+
+/* THEME */
+
+function toggleTheme(){
+
+    document.body.classList.toggle("dark-mode");
+
+    const theme =
+        document.body.classList.contains("dark-mode")
+        ? "dark"
+        : "light";
+
+    localStorage.setItem("theme",theme);
+}
+
+if(localStorage.getItem("theme")==="dark"){
+    document.body.classList.add("dark-mode");
+}
+
+/* LANGUAGE */
+
+function toggleLang(){
+
+    let html=document.documentElement;
+
+    if(html.lang==="ar"){
+
+        html.lang="en";
+        html.dir="ltr";
+
+        localStorage.setItem("lang","en");
+
+    }else{
+
+        html.lang="ar";
+        html.dir="rtl";
+
+        localStorage.setItem("lang","ar");
+    }
+}
+
+const savedLang=localStorage.getItem("lang");
+
+if(savedLang==="en"){
+    document.documentElement.lang="en";
+    document.documentElement.dir="ltr";
+}
+
+/* CLOSE MENU OUTSIDE */
+
+document.addEventListener("click",(e)=>{
+
+    const menu=document.getElementById("navMenu");
+
+    const btn=document.querySelector(".menu-btn");
+
+    if(
+        !menu.contains(e.target) &&
+        !btn.contains(e.target)
+    ){
+        menu.classList.remove("active");
+    }
+
+});
+
+
+</script>
+<script>
+
+const slides = document.querySelectorAll('.slide');
+
+let current = 0;
+
+function showSlide(index){
+
+    slides.forEach(slide=>{
+        slide.classList.remove('active');
+    });
+
+    slides[index].classList.add('active');
+}
+
+function nextSlide(){
+
+    current++;
+
+    if(current >= slides.length){
+        current = 0;
+    }
+
+    showSlide(current);
+}
+
+function prevSlide(){
+
+    current--;
+
+    if(current < 0){
+        current = slides.length - 1;
+    }
+
+    showSlide(current);
+}
+
+document.querySelector('.next')
+.addEventListener('click', nextSlide);
+
+document.querySelector('.prev')
+.addEventListener('click', prevSlide);
+
+/* حركة تلقائية */
+
+setInterval(() => {
+    nextSlide();
+}, 4000);
+
+</script>
+<script>
+document.querySelectorAll(".faq-question").forEach(button=>{
+
+    button.addEventListener("click",()=>{
+
+        const item = button.parentElement;
+
+        item.classList.toggle("active");
+
+    });
+
+});
+function showVodafoneCash(){
+    document.getElementById("vodafonePopup").style.display="flex";
+}
+
+function showInstapay(){
+    document.getElementById("instaPopup").style.display="flex";
+}
+
+function closePopup(){
+    document.querySelectorAll(".popup").forEach(p=>{
+        p.style.display="none";
+    });
+}
+
+function copyCashNumber(){
+
+    navigator.clipboard.writeText("01025146333");
+
+    alert("تم نسخ الرقم");
+}
+
+function copyInstaNumber(){
+
+    navigator.clipboard.writeText("01025146333");
+
+    alert("تم نسخ الرقم");
+}
+
+function verifyHuman(){
+
+    document.getElementById("instaPopup").style.display="none";
+
+    document.getElementById("verifyPopup").style.display="flex";
+}
+
+function sendWhatsapp(){
+
+    const check =
+    document.getElementById("humanCheck");
+
+    if(!check.checked){
+
+        alert("يرجى تأكيد أنك لست روبوتاً");
+
+        return;
+    }
+
+    window.open(
+    "https://wa.me/201025146333?text=أريد الاشتراك في الباقة",
+    "_blank"
+    );
+}
+function copyText(type) {
+  let text = "";
+
+  if (type === "phone") {
+    text = "01025146333";
+  }
+
+  if (type === "email") {
+    text = "altawfik2026@gmail.com";
+  }
+
+  navigator.clipboard.writeText(text).then(() => {
+    alert("تم النسخ: " + text);
+  });
+}
+</script>
+</body>
+</html>

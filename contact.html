@@ -1,0 +1,662 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منصة التوفيق | اتصل بنا</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root {
+    --primary: #6d5efc;
+    --primary2: #22d3ee;
+    --bg: #0b0b10;
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+    --card: rgba(255, 255, 255, 0.06);
+    --border: rgba(255, 255, 255, 0.12);
+    --glass: rgba(8, 11, 22, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.08);
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Cairo', sans-serif;
+}
+body {
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    transition: 0.4s;
+}
+body.dark-mode {
+    --bg: #0f172a;
+    --text: #ffffff;
+    --glass: rgba(15, 23, 42, 0.95);
+    --glass-border: rgba(255, 255, 255, 0.12);
+}
+img {
+    max-width: 100%;
+    display: block;
+}
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+}
+header {
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+    background: var(--glass);
+    border-bottom: 1px solid var(--glass-border);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    padding: 16px 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 1.15rem;
+    font-weight: 800;
+}
+.logo img {
+    height: 42px;
+    width: auto;
+}
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.nav-links a {
+    color: var(--text);
+    text-decoration: none;
+    padding: 10px 16px;
+    border-radius: 999px;
+    font-weight: 600;
+    transition: 0.25s;
+}
+.nav-links a:hover {
+    background: rgba(109, 94, 252, 0.12);
+    color: var(--primary);
+}
+.actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.action-btn,
+.menu-btn {
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text);
+    font-size: 1rem;
+    transition: 0.25s;
+}
+.action-btn:hover,
+.menu-btn:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.16);
+}
+.menu-btn {
+    display: none;
+}
+.main-content {
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: 32px 5% 60px;
+}
+.page-title {
+    text-align: center;
+    margin-bottom: 36px;
+}
+.page-title h1 {
+    font-size: 2.3rem;
+    margin-bottom: 12px;
+}
+.page-title p {
+    color: var(--muted);
+    line-height: 1.8;
+    max-width: 760px;
+    margin: 0 auto;
+}
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 28px;
+}
+.info-panel,
+.form-panel {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    padding: 30px;
+    backdrop-filter: blur(14px);
+}
+.info-panel h2,
+.form-panel h2 {
+    color: #ffffff;
+    font-size: 1.85rem;
+    margin-bottom: 18px;
+}
+.info-panel p,
+.form-panel p {
+    color: var(--muted);
+    line-height: 1.7;
+}
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: 0.3s;
+}
+.contact-item:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary);
+    background: rgba(109, 94, 252, 0.08);
+}
+.contact-item i {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: rgba(109, 94, 252, 0.18);
+    color: var(--primary);
+    font-size: 1.1rem;
+}
+.contact-item a,
+.contact-item span {
+    color: var(--text);
+    font-weight: 600;
+    text-decoration: none;
+}
+.hours-grid {
+    display: grid;
+    gap: 10px;
+    margin-top: 22px;
+}
+.hours-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.hours-row span:first-child {
+    font-weight: 700;
+}
+.hours-row span:last-child {
+    color: #c8d0dc;
+}
+.hours-row.closed span:last-child {
+    color: #f87171;
+}
+.form-panel form {
+    display: grid;
+    gap: 18px;
+}
+.form-panel label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text);
+    font-weight: 700;
+}
+.form-panel input,
+.form-panel select,
+.form-panel textarea {
+    width: 100%;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+    padding: 14px 16px;
+    font-size: 1rem;
+    transition: 0.25s;
+}
+.form-panel input:focus,
+.form-panel select:focus,
+.form-panel textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(109, 94, 252, 0.18);
+    background: rgba(255, 255, 255, 0.12);
+}
+.form-panel textarea {
+    min-height: 140px;
+    resize: vertical;
+}
+.button-row {
+    display: flex;
+    justify-content: center;
+}
+.form-panel button {
+    width: 100%;
+    max-width: 320px;
+    padding: 14px 18px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--primary), var(--primary2));
+    color: #ffffff;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.25s;
+}
+.form-panel button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 35px rgba(109, 94, 252, 0.28);
+}
+.footer {
+    background: linear-gradient(180deg, #07162f, #041022);
+    color: #c8d0dc;
+    padding: 60px 20px;
+}
+.footer-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+.footer-box h3 {
+    color: #00aaff;
+    margin-bottom: 18px;
+    position: relative;
+}
+.footer-box h3::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    right: 0;
+    width: 70px;
+    height: 3px;
+    background: #00aaff;
+}
+.footer-box p,
+.footer-box ul li a,
+.contact-box p {
+    color: #c8d0dc;
+    line-height: 1.8;
+}
+.footer-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.footer-box ul li {
+    margin-bottom: 12px;
+}
+.footer-box ul li a {
+    color: #c8d0dc;
+    text-decoration: none;
+    transition: 0.25s;
+}
+.footer-box ul li a:hover {
+    color: #00aaff;
+}
+.social-links {
+    display: flex;
+    gap: 12px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+}
+.social-links a {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #00aaff;
+    color: #ffffff;
+    display: grid;
+    place-items: center;
+    text-decoration: none;
+    transition: 0.25s;
+}
+.social-links a:hover {
+    transform: translateY(-3px);
+}
+.qr-image {
+    width: 180px;
+    border-radius: 18px;
+    background: #ffffff;
+    padding: 10px;
+}
+.contact-box {
+    display: grid;
+    gap: 12px;
+}
+.contact-box p {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 12px 14px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 14px;
+}
+.contact-box a {
+    color: #cbd5e1;
+    text-decoration: none;
+    font-weight: 500;
+}
+.copy-btn {
+    background: #38bdf8;
+    color: #0b1220;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 700;
+    transition: 0.25s;
+}
+.copy-btn:hover {
+    background: #0ea5e9;
+    transform: scale(1.03);
+}
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 20px;
+    margin-top: 30px;
+    text-align: center;
+    color: #9ca3af;
+}
+.footer-bottom-links {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+}
+.footer-bottom-links img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+@media (max-width: 900px) {
+    .header,
+    header {
+        flex-wrap: wrap;
+    }
+    .nav-links {
+        position: absolute;
+        top: 88px;
+        right: 15px;
+        width: 260px;
+        flex-direction: column;
+        background: rgba(8, 11, 22, 0.96);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+        padding: 16px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: 0.25s ease;
+    }
+    .nav-links.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+    .nav-links a {
+        width: 100%;
+        text-align: center;
+    }
+    .desktop-actions {
+        display: none;
+    }
+    .mobile-only {
+        display: flex;
+    }
+    .menu-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+}
+@media (max-width: 600px) {
+    .page-title h1 {
+        font-size: 1.85rem;
+    }
+    .contact-item,
+    .hours-row,
+    .form-panel input,
+    .form-panel select,
+    .form-panel textarea {
+        padding: 12px 14px;
+    }
+}
+</style>
+</head>
+<body>
+<header>
+    <a href="https://altawfik.online" class="logo">
+        <img src="https://altawfik.online/altawfiq.png" alt="منصة التوفيق">
+        <span>منصة التوفيق</span>
+    </a>
+    <nav class="nav-links" id="navMenu">
+        <a href="index.html"><i class="fa-solid fa-house"></i> الرئيسية</a>
+        <a href="about.html"><i class="fa-solid fa-info-circle"></i> من نحن</a>
+        <a href="payment.html"><i class="fa-solid fa-credit-card"></i> طرق الدفع</a>
+        <a href="contact.html"><i class="fa-solid fa-headset"></i> تواصل معنا</a>
+        <a href="login.html"><i class="fa-solid fa-user"></i> تسجيل الدخول</a>
+        <div class="actions mobile-only">
+            <button class="action-btn" onclick="toggleTheme()" type="button" aria-label="تبديل الوضع المظلم"><i class="fas fa-moon"></i></button>
+            <button class="action-btn" onclick="toggleLang()" type="button" aria-label="تبديل اللغة">EN | AR</button>
+        </div>
+    </nav>
+    <div class="actions desktop-actions">
+        <button class="action-btn" onclick="toggleTheme()" type="button" aria-label="تبديل الوضع المظلم"><i class="fas fa-moon"></i></button>
+        <button class="action-btn" onclick="toggleLang()" type="button" aria-label="تبديل اللغة">EN | AR</button>
+    </div>
+    <button class="menu-btn" onclick="toggleMenu()" type="button" aria-label="قائمة التنقل"><i class="fas fa-bars"></i></button>
+</header>
+<main class="main-content">
+    <section class="page-title">
+        <h1>تواصل معنا</h1>
+        <p>يمكنك استخدام هذا النموذج لطلب الاتصال عبر واتساب أو الاطلاع على بيانات التواصل المباشرة. نحن هنا لمساعدتك في أي وقت.</p>
+    </section>
+    <section class="contact-grid">
+        <aside class="info-panel">
+            <h2>معلومات الاتصال</h2>
+            <div class="contact-item">
+                <i class="fa-solid fa-phone"></i>
+                <a href="tel:+201220893920">01220893920</a>
+            </div>
+            <div class="contact-item">
+                <i class="fa-solid fa-phone-volume"></i>
+                <a href="tel:+201025146333">01025146333</a>
+            </div>
+            <div class="contact-item">
+                <i class="fa-solid fa-envelope"></i>
+                <a href="mailto:omarstor@gmail.com">omarstor@gmail.com</a>
+            </div>
+            <div class="hours-grid">
+                <div class="hours-row"><span>السبت</span><span>12:00 صباحًا - 08:00 مساءً</span></div>
+                <div class="hours-row"><span>الأحد</span><span>12:00 صباحًا - 08:00 مساءً</span></div>
+                <div class="hours-row"><span>الإثنين</span><span>12:00 صباحًا - 08:00 مساءً</span></div>
+                <div class="hours-row"><span>الثلاثاء</span><span>12:00 صباحًا - 08:00 مساءً</span></div>
+                <div class="hours-row"><span>الأربعاء</span><span>12:00 صباحًا - 08:00 مساءً</span></div>
+                <div class="hours-row"><span>الخميس</span><span>12:00 صباحًا - 08:00 مساءً</span></div>
+                <div class="hours-row closed"><span>الجمعة</span><span>مغلق</span></div>
+            </div>
+        </aside>
+        <article class="form-panel">
+            <h2>طلب اتصال</h2>
+            <p>املأ بياناتك وسنرسل طلبك مباشرة إلى واتساب فريقنا ليتم التواصل معك في أقرب وقت.</p>
+            <form id="contactForm" onsubmit="sendToWhatsApp(event)">
+                <div>
+                    <label for="name">الاسم الكامل</label>
+                    <input type="text" id="name" name="name" placeholder="أدخل الاسم الكامل" required>
+                </div>
+                <div>
+                    <label for="phone">رقم الهاتف</label>
+                    <input type="tel" id="phone" name="phone" placeholder="أدخل رقم هاتفك" required>
+                </div>
+                <div>
+                    <label for="timeFrom">وقت الاتصال (من)</label>
+                    <input type="time" id="timeFrom" name="timeFrom" required>
+                </div>
+                <div>
+                    <label for="timeTo">وقت الاتصال (إلى)</label>
+                    <input type="time" id="timeTo" name="timeTo" required>
+                </div>
+                <div>
+                    <label for="reason">السبب</label>
+                    <select id="reason" name="reason" required>
+                        <option value="طلب استشارة مجانية">طلب استشارة مجانية</option>
+                        <option value="دعم فني">دعم فني</option>
+                        <option value="استضافة مواقع">استضافة مواقع</option>
+                        <option value="طلب عرض سعر">طلب عرض سعر</option>
+                        <option value="تصميم وتطوير مواقع">تصميم وتطوير مواقع</option>
+                        <option value="تصميم جرافيك">تصميم جرافيك</option>
+                        <option value="إدارة حملات إعلانية">إدارة حملات إعلانية</option>
+                        <option value="تحسين محركات البحث (SEO)">تحسين محركات البحث (SEO)</option>
+                        <option value="تسويق عبر وسائل التواصل الاجتماعي">تسويق عبر وسائل التواصل الاجتماعي</option>
+                        <option value="برمجة تطبيقات موبايل">برمجة تطبيقات موبايل</option>
+                        <option value="هوية بصرية وشعارات">هوية بصرية وشعارات</option>
+                        <option value="تصوير احترافي وإنتاج فيديو">تصوير احترافي وإنتاج فيديو</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="description">تفاصيل إضافية</label>
+                    <textarea id="description" name="description" placeholder="اكتب تفاصيل إضافية عن طلبك" required></textarea>
+                </div>
+                <div class="button-row">
+                    <button type="submit">إرسال الطلب عبر واتساب</button>
+                </div>
+            </form>
+        </article>
+    </section>
+</main>
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-box about">
+            <img src="altawfiq.png" alt="شعار منصة التوفيق" class="footer-logo">
+            <h3>منصة التوفيق</h3>
+            <p>منصة تعليمية متكاملة تقدم أفضل الكورسات والاختبارات التفاعلية والمراجعات النهائية للطلاب بطريقة حديثة واحترافية.</p>
+            <div class="social-links">
+                <a href="https://www.facebook.com/share/1Bk3zprxkk/" target="_blank" rel="noreferrer"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://wa.me/201025146333" target="_blank" rel="noreferrer"><i class="fab fa-whatsapp"></i></a>
+                <a href="#" target="_blank" rel="noreferrer"><i class="fab fa-youtube"></i></a>
+                <a href="#" target="_blank" rel="noreferrer"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+        <div class="footer-box">
+            <h3>روابط مفيدة</h3>
+            <ul>
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="about.html">من نحن</a></li>
+                <li><a href="payment.html">طرق الدفع</a></li>
+                <li><a href="contact.html">تواصل معنا</a></li>
+            </ul>
+        </div>
+        <div class="footer-box contact-box">
+            <p>📞 01025146333 <button type="button" onclick="copyText('phone')" class="copy-btn">نسخ</button></p>
+            <p>📧 <a href="mailto:altawfik2026@gmail.com">info@altawfik.online</a> <button type="button" onclick="copyText('email')" class="copy-btn">نسخ</button></p>
+            <p>📍 مصر</p>
+        </div>
+        <div class="footer-box qr-box">
+            <h3>الرمز السريع</h3>
+            <p>امسح الكود للوصول إلى المنصة</p>
+            <img src="qrcode_altawfik.online.png" alt="رمز QR لمنصة التوفيق" class="qr-image">
+        </div>
+    </div>
+    <div class="footer-bottom">
+        © 2026 منصة التوفيق - جميع الحقوق محفوظة
+        <div class="footer-bottom-links">
+            <img src="https://omarstor.online/logo2.png" alt="شعار عمر ستور">
+            تم الانشاء والتصميم بواسطة شركة عمر ستور
+        </div>
+    </div>
+</footer>
+<script>
+function toggleMenu() {
+    document.getElementById('navMenu').classList.toggle('active');
+}
+function toggleTheme() {
+    document.body.classList.toggle('dark-mode');
+    localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+}
+function applySavedTheme() {
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+    }
+}
+function toggleLang() {
+    const html = document.documentElement;
+    const current = html.lang === 'ar' ? 'en' : 'ar';
+    html.lang = current;
+    html.dir = current === 'ar' ? 'rtl' : 'ltr';
+    localStorage.setItem('lang', current);
+}
+function applySavedLang() {
+    const storedLang = localStorage.getItem('lang');
+    if (storedLang === 'en') {
+        document.documentElement.lang = 'en';
+        document.documentElement.dir = 'ltr';
+    } else {
+        document.documentElement.lang = 'ar';
+        document.documentElement.dir = 'rtl';
+    }
+}
+function sendToWhatsApp(event) {
+    event.preventDefault();
+    const name = document.getElementById('name').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const timeFrom = document.getElementById('timeFrom').value;
+    const timeTo = document.getElementById('timeTo').value;
+    const reason = document.getElementById('reason').value;
+    const description = document.getElementById('description').value.trim();
+    if (!name || !phone || !timeFrom || !timeTo || !reason || !description) {
+        alert('يرجى تعبئة جميع الحقول قبل الإرسال');
+        return;
+    }
+    const message = `طلب اتصال من منصة التوفيق%0A\nالاسم: ${name}%0A\nرقم الهاتف: ${phone}%0A\nوقت الاتصال: من ${timeFrom} إلى ${timeTo}%0A\nالسبب: ${reason}%0A\nتفاصيل إضافية: ${description}`;
+    const whatsappNumber = '201220893920';
+    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+}
+function copyText(type) {
+    const values = {
+        phone: '01025146333',
+        email: 'altawfik2026@gmail.com'
+    };
+    const text = values[type] || '';
+    if (!text) {
+        return;
+    }
+    navigator.clipboard.writeText(text).then(() => {
+        alert('تم النسخ: ' + text);
+    }).catch(() => {
+        alert('حدث خطأ أثناء النسخ، حاول مرة أخرى.');
+    });
+}
+applySavedTheme();
+applySavedLang();
+</script>
+</body>
+</html>

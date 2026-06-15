@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منصة التوفيق | من نحن</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></head>
+<style>:root{
+    --primary:#00aaff;
+    --gold:#d4af37;
+
+    --bg:#ffffff;
+    --text:#111827;
+
+    --glass:rgba(255,255,255,.12);
+    --glass-border:rgba(255,255,255,.2);
+}
+
+body.dark-mode{
+    --bg:#0f172a;
+    --text:#ffffff;
+    --glass:rgba(15,23,42,.65);
+    --glass-border:rgba(255,255,255,.1);
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Cairo',sans-serif;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    transition:.4s;
+}
+
+/* HEADER */
+
+header{
+    position: relative;
+    top:0;
+    z-index:9999;
+
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+
+    background:var(--glass);
+    border-bottom:1px solid var(--glass-border);
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:15px 5%;
+}
+
+/* LOGO */
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    text-decoration:none;
+    color:var(--text);
+    font-size:1.2rem;
+    font-weight:800;
+}
+
+.logo img{
+    height:42px;
+}
+
+/* NAV */
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.nav-links a{
+    color:var(--text);
+    text-decoration:none;
+    padding:10px 18px;
+    border-radius:50px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.nav-links a:hover{
+    background:rgba(0,170,255,.15);
+    color:var(--primary);
+}
+
+/* ACTIONS */
+
+.actions{
+    display:flex;
+    gap:10px;
+}
+
+.action-btn{
+    width:42px;
+    height:42px;
+
+    border:none;
+    border-radius:50%;
+    cursor:pointer;
+
+    background:rgba(255,255,255,.1);
+
+    color:var(--text);
+    font-size:1rem;
+
+    transition:.3s;
+}
+
+.action-btn:hover{
+    transform:translateY(-2px);
+}
+
+/* MENU BUTTON */
+
+.menu-btn{
+    display:none;
+
+    width:45px;
+    height:45px;
+
+    border:none;
+    cursor:pointer;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,.1);
+
+    color:var(--text);
+    font-size:1.2rem;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+    .menu-btn{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }
+
+    .nav-links{
+        position:absolute;
+        top:80px;
+        right:15px;
+
+        width:280px;
+
+        background:var(--glass);
+
+        backdrop-filter:blur(20px);
+
+        border:1px solid var(--glass-border);
+
+        border-radius:20px;
+
+        flex-direction:column;
+
+        padding:15px;
+
+        opacity:0;
+        visibility:hidden;
+
+        transform:translateY(-15px);
+
+        transition:.35s ease;
+    }
+
+    .nav-links.active{
+        opacity:1;
+        visibility:visible;
+        transform:translateY(0);
+    }
+
+    .nav-links a{
+        width:100%;
+        text-align:center;
+    }
+
+    .desktop-actions{
+        display:none;
+    }
+}
+
+/* DESKTOP */
+
+@media(min-width:901px){
+    .mobile-only{
+        display:none;
+    }
+}
+
+.faq-section{
+    max-width:900px;
+    margin:60px auto;
+    padding:0 20px;
+}
+
+.faq-section h2{
+    text-align:center;
+    color:#00aaff;
+    margin-bottom:30px;
+    font-size:2rem;
+}
+
+.faq-item{
+    background:#fff;
+    border-radius:18px;
+    margin-bottom:15px;
+    overflow:hidden;
+
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.faq-question{
+    width:100%;
+
+    border:none;
+    background:none;
+
+    padding:20px;
+
+    font-size:18px;
+    font-weight:700;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    cursor:pointer;
+}
+
+.faq-question span{
+    font-size:24px;
+    color:#00aaff;
+}
+
+.faq-answer{
+    max-height:0;
+    overflow:hidden;
+
+    transition:max-height .4s ease;
+}
+
+.faq-answer p{
+    padding:0 20px 20px;
+    line-height:1.8;
+    color:#555;
+}
+
+.faq-item.active .faq-answer{
+    max-height:200px;
+}
+
+.faq-item.active .faq-question span{
+    transform:rotate(45deg);
+}
+.footer{
+    background:linear-gradient(
+        180deg,
+        #07162f,
+        #041022
+    );
+
+    color:white;
+
+    margin-top:80px;
+}
+
+.footer-container{
+    max-width:1300px;
+    margin:auto;
+
+    padding:60px 20px;
+
+    display:grid;
+    grid-template-columns:
+    repeat(auto-fit,minmax(250px,1fr));
+
+    gap:40px;
+}
+
+.footer-box h3{
+    margin-bottom:20px;
+
+    color:#00aaff;
+
+    position:relative;
+}
+
+.footer-box h3::after{
+    content:"";
+    position:absolute;
+
+    bottom:-8px;
+    right:0;
+
+    width:70px;
+    height:3px;
+
+    background:#00aaff;
+}
+
+.footer-logo{
+    width:80px;
+    margin-bottom:15px;
+}
+
+.footer-box p{
+    color:#c8d0dc;
+    line-height:1.8;
+}
+
+.footer-box ul{
+    list-style:none;
+}
+
+.footer-box ul li{
+    margin:15px 0;
+}
+
+.footer-box ul li a{
+    color:#c8d0dc;
+    text-decoration:none;
+}
+
+.footer-box ul li a:hover{
+    color:#00aaff;
+}
+
+.social-links{
+    margin-top:20px;
+
+    display:flex;
+    gap:10px;
+}
+
+.social-links a{
+    width:42px;
+    height:42px;
+
+    border-radius:50%;
+
+    background:#00aaff;
+
+    color:white;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    text-decoration:none;
+}
+
+.social-links a:hover{
+    transform:translateY(-4px);
+}
+
+.qr-image{
+    width:180px;
+    margin-top:15px;
+    background:white;
+    padding:10px;
+}
+
+.footer-bottom{
+    border-top:1px solid rgba(255,255,255,.1);
+
+    text-align:center;
+
+    padding:20px;
+
+    color:#c8d0dc;
+}
+.contact-box p {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  transition: 0.3s;
+}
+
+.contact-box p:hover {
+  background: rgba(56,189,248,0.08);
+  transform: translateY(-2px);
+}
+
+.online {
+  color: #cbd5e1;
+  text-decoration: none;
+  font-weight: 500;
+  flex: 1;
+}
+
+.copy-btn {
+  background: #38bdf8;
+  color: #0b1220;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.copy-btn:hover {
+  background: #0ea5e9;
+  transform: scale(1.05);
+}
+
+.about-section{
+    padding:80px 20px;
+    max-width:1300px;
+    margin:auto;
+}
+
+.section-title{
+    text-align:center;
+    margin-bottom:60px;
+}
+
+.section-title h2{
+    font-size:2.8rem;
+    color:#00aaff;
+    margin-bottom:10px;
+}
+
+.section-title p{
+    color:#94a3b8;
+    font-size:1.1rem;
+}
+
+.about-grid{
+    display:grid;
+    grid-template-columns:
+    repeat(auto-fit,minmax(280px,1fr));
+
+    gap:25px;
+}
+
+.about-card{
+    background:rgba(255,255,255,.05);
+    backdrop-filter:blur(15px);
+
+    border:1px solid rgba(255,255,255,.1);
+
+    border-radius:24px;
+
+    padding:35px 25px;
+
+    text-align:center;
+
+    transition:.4s ease;
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.about-card::before{
+    content:"";
+
+    position:absolute;
+    top:0;
+    left:-100%;
+
+    width:100%;
+    height:100%;
+
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.08),
+        transparent
+    );
+
+    transition:.8s;
+}
+
+.about-card:hover::before{
+    left:100%;
+}
+
+.about-card:hover{
+    transform:translateY(-10px);
+
+    border-color:#00aaff;
+
+    box-shadow:
+    0 15px 35px rgba(0,170,255,.15);
+}
+
+.icon{
+    width:75px;
+    height:75px;
+
+    margin:auto auto 20px;
+
+    border-radius:50%;
+
+    background:linear-gradient(
+        135deg,
+        #00aaff,
+        #0077ff
+    );
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:30px;
+    color:white;
+
+    box-shadow:
+    0 10px 25px rgba(0,170,255,.3);
+}
+
+.about-card h3{
+    color:#00aaff;
+    margin-bottom:15px;
+    font-size:1.4rem;
+}
+
+.about-card p{
+    color:#cbd5e1;
+    line-height:1.9;
+    font-size:.95rem;
+}
+
+@media(max-width:768px){
+
+   .logo-box{
+    position:relative;
+    width:100%;
+    max-width:900px;
+    height:400px;
+
+    margin:auto;
+
+    overflow:hidden;
+    border-radius:30px;
+
+    box-shadow:0 20px 50px rgba(0,0,0,.25);
+}
+
+.logo-box img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+/* طبقة فوق الصورة */
+.overlay{
+    position:absolute;
+    inset:0;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    text-align:center;
+
+    background:
+    linear-gradient(
+        rgba(0,0,0,.35),
+        rgba(0,0,0,.45)
+    );
+
+    color:white;
+}
+
+.overlay h2{
+    font-size:3rem;
+    font-weight:800;
+    margin-bottom:10px;
+
+    text-shadow:
+    0 4px 20px rgba(0,0,0,.5);
+}
+
+.overlay p{
+    font-size:1.2rem;
+    opacity:.95;
+}
+
+/* الموجة */
+.logo-wave{
+    position:absolute;
+    bottom:-2px;
+    left:0;
+    width:100%;
+    line-height:0;
+}
+
+.logo-wave svg{
+    width:100%;
+    height:90px;
+    display:block;
+}
+
+@media(max-width:768px){
+
+    .logo-box{
+        height:280px;
+    }
+
+    .overlay h2{
+        font-size:2rem;
+    }
+
+    .overlay p{
+        font-size:1rem;
+    }
+}
+
+@media(max-width:768px){
+
+    
+}
+}
+</style>
+<body>
+    <header>
+
+    <a href="https://altawfik.online" class="logo">
+        <img src="https://altawfik.online/altawfiq.png">
+        <span>منصة التوفيق</span>
+    </a>
+
+    <nav class="nav-links" id="navMenu">
+
+     <a href="index.html"><i class="fa-solid fa-house"></i> الرئيسية</a>
+        <a href="about.html"><i class="fa-solid fa-info-circle"></i> من نحن</a>
+        <a href="payment.html"><i class="fa-solid fa-credit-card"></i> طرق الدفع</a>
+        <a href="contact.html"><i class="fa-solid fa-headset"></i> تواصل معنا</a>
+        <a href="login.html"><i class="fa-solid fa-user"></i> تسجيل الدخول</a>
+
+        <div class="actions mobile-only">
+
+            <button class="action-btn" onclick="toggleTheme()">
+                <i class="fas fa-moon"></i>
+            </button>
+
+            <button class="action-btn" onclick="toggleLang()">
+                EN | AR
+            </button>
+
+        </div>
+
+    </nav>
+
+    <div class="actions desktop-actions">
+
+        <button class="action-btn" onclick="toggleTheme()">
+            <i class="fas fa-moon"></i>
+        </button>
+
+        <button class="action-btn" onclick="toggleLang()">
+      EN|AR
+        </button>
+
+    </div>
+
+    <button class="menu-btn" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+</header>
+
+
+    <!-- الموجات -->
+   
+
+</section>
+<section class="about-section">
+    
+    <div class="section-title">
+         <h2>أكاديمية التوفيق</h2>
+        <p>لتعليم القرآن الكريم واللغة العربية</p>
+        <h2> نهدف الي</h2>
+        <p>نحو تعليم قرآني ولغوي متميز باستخدام أحدث الوسائل التعليمية</p>
+    </div>
+
+    <div class="about-grid">
+
+        <div class="about-card">
+            <div class="icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <h3>من نحن</h3>
+            <p>
+                منصة تعليمية متخصصة في تعليم القرآن الكريم واللغة العربية والتجويد عن بُعد،
+                تقدم تجربة تعليمية حديثة ومتكاملة لجميع الأعمار.
+            </p>
+        </div>
+
+        <div class="about-card">
+            <div class="icon">
+                <i class="fas fa-bullseye"></i>
+            </div>
+            <h3>أهدافنا</h3>
+            <p>
+                نشر تعليم القرآن الكريم واللغة العربية بأساليب حديثة،
+                وتوفير بيئة تعليمية تفاعلية تساعد الطلاب على تحقيق أفضل النتائج.
+            </p>
+        </div>
+
+        <div class="about-card">
+            <div class="icon">
+                <i class="fas fa-eye"></i>
+            </div>
+            <h3>رؤيتنا</h3>
+            <p>
+                أن نكون من المنصات الرائدة عالمياً في تعليم القرآن الكريم
+                واللغة العربية بجودة تعليمية عالية.
+            </p>
+        </div>
+
+        <div class="about-card">
+            <div class="icon">
+                <i class="fas fa-gem"></i>
+            </div>
+            <h3>قيمنا</h3>
+            <p>
+                التميز، المصداقية، الإتقان، الاحترام، التطوير المستمر،
+                والمسؤولية تجاه طلابنا وأولياء الأمور.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+<div class="logo-box">
+
+    <img src="https://omarstor.online/teamwork-banner.jpg"
+         alt="أكاديمية التوفيق" width="2000" height="300">
+</div>
+<footer class="footer">
+
+    <div class="footer-container">
+
+        <div class="footer-box about">
+            <img src="altawfiq.png" class="footer-logo">
+
+            <h3>منصة التوفيق</h3>
+
+            <p>
+                منصة تعليمية متكاملة تقدم أفضل الكورسات
+                والاختبارات التفاعلية والمراجعات النهائية
+                للطلاب بطريقة حديثة واحترافية.
+            </p>
+
+            <div class="social-links">
+                <a href="https://www.facebook.com/share/1Bk3zprxkk/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://wa.me/201025146333" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+
+        <div class="footer-box">
+            <h3>روابط مفيدة</h3>
+
+            <ul>
+                <li><a href="">الرئيسية</a></li>
+                <li><a href="#">من نحن</a></li>
+                <li><a href="#">طرق الدفع</a></li>
+                <li><a href="#">تواصل معنا</a></li>
+            </ul>
+        </div>
+
+       <div class="contact-box">
+
+  <p>
+    📞 01025146333
+    <button onclick="copyText('phone')" class="copy-btn">نسخ</button>
+  </p>
+
+  <p>
+    📧 <a href="mailto:altawfik2026@gmail.com" class="online">info@altawfik.online</a>
+    <button onclick="copyText('email')" class="copy-btn">نسخ</button>
+  </p>
+
+  <p>
+    📍 مصر
+  </p>
+
+</div>
+
+        <div class="footer-box qr-box">
+
+            <h3>الرمز السريع</h3>
+
+            <p>امسح الكود للوصول إلى المنصة</p>
+
+            <img src="qrcode_altawfik.online.png" class="qr-image">
+
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        © 2026 منصة التوفيق - جميع الحقوق محفوظة
+        <div class="footer-bottom-links">
+            <img src="https://omarstor.online/logo2.png" style="width: 30px; height: 30px; border-radius: 50%; margin-left: 5px;">
+
+تم الانشاء والتصميم بواسطة  شركة عمر ستور
+    </div>
+
+
+
+</footer>
+</body>
+<script>
+
+/* MENU */
+
+function toggleMenu(){
+    document
+        .getElementById("navMenu")
+        .classList.toggle("active");
+}
+
+/* THEME */
+
+function toggleTheme(){
+
+    document.body.classList.toggle("dark-mode");
+
+    const theme =
+        document.body.classList.contains("dark-mode")
+        ? "dark"
+        : "light";
+
+    localStorage.setItem("theme",theme);
+}
+
+if(localStorage.getItem("theme")==="dark"){
+    document.body.classList.add("dark-mode");
+}
+
+/* LANGUAGE */
+
+function toggleLang(){
+
+    let html=document.documentElement;
+
+    if(html.lang==="ar"){
+
+        html.lang="en";
+        html.dir="ltr";
+
+        localStorage.setItem("lang","en");
+
+    }else{
+
+        html.lang="ar";
+        html.dir="rtl";
+
+        localStorage.setItem("lang","ar");
+    }
+}
+
+const savedLang=localStorage.getItem("lang");
+
+if(savedLang==="en"){
+    document.documentElement.lang="en";
+    document.documentElement.dir="ltr";
+}
+
+/* CLOSE MENU OUTSIDE */
+
+document.addEventListener("click",(e)=>{
+
+    const menu=document.getElementById("navMenu");
+
+    const btn=document.querySelector(".menu-btn");
+
+    if(
+        !menu.contains(e.target) &&
+        !btn.contains(e.target)
+    ){
+        menu.classList.remove("active");
+    }
+
+});
+
+function showVodafoneCash(){
+    document.getElementById("vodafonePopup").style.display="flex";
+    document.getElementById("vodafonePopup").style.position="relative";
+}
+
+function showInstapay(){
+    document.getElementById("instaPopup").style.display="flex";
+}
+
+function closePopup(){
+    document.querySelectorAll(".popup").forEach(p=>{
+        p.style.display="none";
+    });
+}
+
+function copyCashNumber(){
+
+    navigator.clipboard.writeText("01025146333");
+
+    alert("تم نسخ الرقم");
+}
+
+function copyInstaNumber(){
+
+    navigator.clipboard.writeText("01025146333");
+
+    alert("تم نسخ الرقم");
+}
+
+function verifyHuman(){
+
+    document.getElementById("instaPopup").style.display="none";
+
+    document.getElementById("verifyPopup").style.display="flex";
+}
+
+function sendWhatsapp(){
+
+    const check =
+    document.getElementById("humanCheck");
+
+    if(!check.checked){
+
+        alert("يرجى تأكيد أنك لست روبوتاً");
+
+        return;
+    }
+
+    window.open(
+    "https://wa.me/201025146333?text=أريد الاشتراك في الباقة",
+    "_blank"
+    );
+}
+function copyText(type) {
+  let text = "";
+
+  if (type === "phone") {
+    text = "01025146333";
+  }
+
+  if (type === "email") {
+    text = "altawfik2026@gmail.com";
+  }
+
+  navigator.clipboard.writeText(text).then(() => {
+    alert("تم النسخ: " + text);
+  });
+}
+</script>
+</html>
